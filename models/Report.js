@@ -12,6 +12,10 @@ var ReportSchema = new Schema ({
         ref: 'School',
         requried: true
     },
+    name: {
+        type: String,
+        required: true
+    },
     time_of_incident: {
         type: Date,
         required: true
