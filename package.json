@@ -5,6 +5,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "mongoose": "^5.4.20",
     "path": "^0.12.7",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",

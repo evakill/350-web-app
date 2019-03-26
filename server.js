@@ -4,6 +4,9 @@ const path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGODB_URI)
+
 app.get('/ping', function (req, res) {
  return res.send('pong');
 });
