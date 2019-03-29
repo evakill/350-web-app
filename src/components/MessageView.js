@@ -23,6 +23,7 @@ class MessageView extends React.Component {
       super(props)
       this.state = {
         messages: [],
+        uid: "tiff",
         // username: props.user.username || "Student",
         // report_id: props.report.report_id || "" 
       }
@@ -34,8 +35,11 @@ class MessageView extends React.Component {
     showReport() {
       return;
     }
-    sendMessage() {
-
+    sendMessage(text) {
+      var oldMessages = this.state.messages;
+      oldMessages.push({id: "tiff", username: "Tiffany", text: text});
+      console.log(oldMessages);
+      this.setState({messages: oldMessages});
     }
     render() {
       return(
@@ -49,8 +53,8 @@ class MessageView extends React.Component {
               <button className="button" onClick={this.showReport()}>View Report</button>
             </div>
           </div>
-          <MessagesList messages={this.state.messages} submit={this.sendMessage}/>
-          <InputLine />
+          <MessagesList messages={this.state.messages} />
+          <InputLine submit={this.sendMessage}/>
         </div>
       )
     }
