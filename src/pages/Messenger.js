@@ -1,6 +1,6 @@
 import React from 'react'
 
-class Messanger extends React.Component {
+class Messenger extends React.Component {
   render() {
     return (
       <p> MESSANGER </p>
@@ -8,4 +8,4 @@ class Messanger extends React.Component {
   }
 }
 
-export default Messanger;
+export default Messenger;
