@@ -5,7 +5,13 @@ class MessageReceive extends React.Component {
         super(props)
     }
     render () {
-        return(<div></div>)
+        return(
+            <li className="content" style={{width: "95%"}}>
+                <div className="notification" style={{float: "left", textAlign: "left"}}>
+                {this.props.text}
+                </div>
+            </li>
+        )
     }
 }
 
