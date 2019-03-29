@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var MessageSchema = new Schema ({
     sender_id: {
@@ -13,10 +14,10 @@ var MessageSchema = new Schema ({
         type: Date,
         required: true
     },
-    message: {
+    text: {
         type: String,
         required: true
     }
 })
 
-export default model('Message', MessageSchema)
+module.exports = mongoose.model('Message', MessageSchema);
