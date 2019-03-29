@@ -1,5 +1,4 @@
-import { Schema as Schema, model } from 'mongoose';
-var Schema = Schema;
+import { Schema, model } from 'mongoose';
 
 var MessageSchema = new Schema ({
     sender_id: {
