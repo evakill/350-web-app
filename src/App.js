@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch } from "react-router-dom";
+import Home from './pages/Home.js'
+import Messenger from './pages/Messenger.js'
+import Report from './pages/Report.js'
+import EditQuestions from './pages/EditQuestions.js'
+import Messages from './pages/Messages.js'
+import Reports from './pages/Reports.js'
+
+//https://reacttraining.com/react-router/web/guides/basic-components
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/messenger/" component={Messenger} />
+        <Route path="/report/" component={Report} />
+        <Route path="/reports/" component={Reports} />
+        <Route path="/messages/" component={Messages} />
+        <Route path="/edit/" component={EditQuestions} />
+        {/* when none of the above match, <NoMatch> will be rendered */}
+        <Route component={Home} />
+      </Switch>
     );
   }
 }
