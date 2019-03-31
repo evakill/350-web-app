@@ -11,6 +11,13 @@ mongoose.connect(process.env.MONGODB_URI);
 var Message = require('./models/Message');
 var Report = require('./models/Report');
 
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+io.on('connection', () =>{
+ console.log('A user has connected.')
+})
+
 app.get('/ping', function (req, res) {
  return res.send('pong');
 });
@@ -63,9 +70,7 @@ app.post('/reports/new', function (req, res) {
     if (err) {
       return res.status(500).send(err);
     }
-    return res.send({
-      id: rpt._id
-    });
+    return res.sendStatus(200);
   });
 });
 
@@ -100,14 +105,8 @@ app.post('/messages/new', function (req, res) {
           return res.status(500).send(err);
         }
 
-        return res.send({
-          result: {
-            sender_id: message.sender_id,
-            recipient_id: message.recipient_id,
-            text: message.text,
-            timestamp: message.timestamp,
-          }
-        });
+        io.emit('message', msg);
+        return res.sendStatus(200);
       });
     });
   });
