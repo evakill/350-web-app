@@ -1,5 +1,4 @@
-import { Schema as Schema, model } from 'mongoose';
-var Schema = Schema;
+import { Schema, model } from 'mongoose';
 
 var ReportSchema = new Schema ({
     student_id: {
