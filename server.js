@@ -18,7 +18,14 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.post('/message/new', function (req, res) {
+// app.get('/messages', function (req, res) {
+//   var report_id = req.query.report_id;
+//   Report.findById(report_id, function (err, user) {
+// 
+//   });
+// });
+
+app.post('/messages/new', function (req, res) {
   var sender_id = req.body.sender_id;
   var recipient_id = req.body.recipient_id;
   var text = req.body.text;
