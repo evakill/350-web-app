@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import 'whatwg-fetch';
 import {
   HelpBlock,
   FormGroup,
@@ -14,13 +15,14 @@ export default class Signup extends Component {
 
     this.state = {
       isLoading: false,
+      token:'',
       email: "",
       password: "",
-      confirmPassword: "",
-      confirmationCode: "",
+      confirmPassword:"",
       school:"",
-      newUser: null
+      name:""
     };
+    this.onSignUp = this.onSignUp.bind(this);
   }
 
   validateForm() {
@@ -28,12 +30,9 @@ export default class Signup extends Component {
       this.state.email.length > 0 &&
       this.state.password.length > 0 &&
       this.state.password === this.state.confirmPassword,
-      this.state.school.length > 0
+      this.state.school.length > 0,
+      this.state.name.length > 0
     );
-  }
-
-  validateConfirmationForm() {
-    return this.state.confirmationCode.length > 0;
   }
 
   handleChange = event => {
@@ -113,7 +112,6 @@ export default class Signup extends Component {
       <div className="Signup">
         {this.state.newUser === null
           ? this.renderForm()
-          : this.renderConfirmationForm()}
       </div>
     );
   }

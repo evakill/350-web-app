@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 mongoose.connect("mongodb://evakill:cis350@ds223756.mlab.com:23756/cis350", {useNewUrlParser: true});
 
 var Message = require('./models/Message');
-
+var School = require('./models/School');
 app.get('/ping', function (req, res) {
  return res.send('pong');
 });
@@ -18,6 +18,65 @@ app.get('/ping', function (req, res) {
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+/*
+   * Sign up
+   */
+app.post('/signup', (req, res, next) => {
+  const { body } = req;
+  const {
+    password
+  } = body;
+  let {
+    email
+  } = body;
+  let {
+    name
+  } = body;
+  let {
+    questions
+  } = body
+  
+  email = email.toLowerCase();
+  email = email.trim();
+  // Steps:
+  // 1. Verify email doesn't exist
+  // 2. Save
+  School.find({
+    email: email
+  }, (err, previousUsers) => {
+    if (err) {
+      return res.send({
+        success: false,
+        message: 'Error: Server error'
+      });
+    } else if (previousUsers.length > 0) {
+      return res.send({
+        success: false,
+        message: 'Error: Account already exist.'
+      });
+    }
+    // Save the new user
+    const newSchool = new School();
+    newSchool.email = email;
+    newSchool.password = password;
+    newSchool.name = name;
+    newschool.questions = questions;
+
+    newSchool.save((err, user) => {
+      if (err) {
+        return res.send({
+          success: false,
+          message: 'Error: Server error'
+        });
+      }
+      return res.send({
+        success: true,
+        message: 'Signed up'
+      });
+    });
+  });
+}); // end of sign up endpoint
+
 
 app.post('/message/new', function (req, res) {
   var sender_id = req.body.sender_id;
