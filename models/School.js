@@ -20,4 +20,5 @@ var SchoolSchema = new Schema ({
     }
 })
 
-module.exports = mongoose.model('School', SchoolSchema);
+
+module.exports = mongoose.model('School', SchoolSchema)
