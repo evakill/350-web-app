@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.18.3",
+    "bulma": "^0.7.4",
     "express": "^4.16.4",
     "mongoose": "^5.4.20",
     "path": "^0.12.7",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8"
   },
   "scripts": {
@@ -26,5 +28,10 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0"
+  }
 }
