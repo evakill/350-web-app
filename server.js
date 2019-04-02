@@ -6,7 +6,8 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI);
+// mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect("mongodb://evakill:cis350@ds223756.mlab.com:23756/cis350", {useNewUrlParser: true});
 
 var Message = require('./models/Message');
 

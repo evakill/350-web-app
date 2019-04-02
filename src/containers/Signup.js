@@ -18,6 +18,7 @@ export default class Signup extends Component {
       password: "",
       confirmPassword: "",
       confirmationCode: "",
+      school:"",
       newUser: null
     };
   }
@@ -26,7 +27,8 @@ export default class Signup extends Component {
     return (
       this.state.email.length > 0 &&
       this.state.password.length > 0 &&
-      this.state.password === this.state.confirmPassword
+      this.state.password === this.state.confirmPassword,
+      this.state.school.length > 0
     );
   }
 
@@ -86,10 +88,10 @@ export default class Signup extends Component {
           />
         </FormGroup>
 
-        <FormGroup controlId="password" bsSize="large">
+        <FormGroup controlId="school" bsSize="large">
           <ControlLabel>School</ControlLabel>
           <FormControl
-            value={this.state.password}
+            value={this.state.school}
             onChange={this.handleChange}
             type="password"
           />
