@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var SchoolSchema = new Schema ({
     name: {
@@ -18,4 +19,4 @@ var SchoolSchema = new Schema ({
     }
 })
 
-export default model('School', SchoolSchema)
+module.exports = mongoose.model('School', SchoolSchema)
