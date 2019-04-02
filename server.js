@@ -10,6 +10,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 var Message = require('./models/Message');
 var Report = require('./models/Report');
+var School = require('./models/School');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -108,6 +109,67 @@ app.post('/messages/new', function (req, res) {
         io.emit('message', msg);
         return res.sendStatus(200);
       });
+    });
+  });
+});
+
+app.get('/questions/:school_id', function (req, res) {
+  var school_id = req.params.school_id;
+  School.findById(school_id, function (err, school) {
+    if (err || !school) {
+      return res.status(500).send(err);
+    }
+    return res.send(school.questions)
+  });
+});
+
+app.post('/school/new', function (req, res) {
+  var name = req.body.name;
+  var email = req.body.email;
+  var password = req.body.password;
+  var questions = ["Please describe the incident."]
+  var school = new School({name, email, password, questions});
+  school.save(function(err, school) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.send(school);
+  });
+});
+
+app.post('/question/new/:school_id', function (req, res) {
+  var question = req.body.question
+  var school_id = req.params.school_id
+  console.log(req.body)
+  School.findById(school_id, function(err, school) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    school.questions.push(question)
+    school.save(function(err, school) {
+      if (err || !school) {
+        return res.status(500).send(err);
+      }
+      return res.send(school.questions)
+    });
+  });
+});
+
+app.post('/question/delete/:school_id', function (req, res) {
+  var question = req.body.question
+  var school_id = req.params.school_id
+  console.log("DELETE", question)
+  School.findById(school_id, function(err, school) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    var i = school.questions.indexOf(question)
+    school.questions.splice(i, 1)
+    school.save(function(err, school) {
+      if (err || !school) {
+        return res.status(500).send(err);
+      }
+      return res.send(school.questions)
     });
   });
 });
