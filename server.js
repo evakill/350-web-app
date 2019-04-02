@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
@@ -140,7 +141,6 @@ app.post('/school/new', function (req, res) {
 app.post('/question/new/:school_id', function (req, res) {
   var question = req.body.question
   var school_id = req.params.school_id
-  console.log(req.body)
   School.findById(school_id, function(err, school) {
     if (err) {
       return res.status(500).send(err);
@@ -158,7 +158,6 @@ app.post('/question/new/:school_id', function (req, res) {
 app.post('/question/delete/:school_id', function (req, res) {
   var question = req.body.question
   var school_id = req.params.school_id
-  console.log("DELETE", question)
   School.findById(school_id, function(err, school) {
     if (err) {
       return res.status(500).send(err);
