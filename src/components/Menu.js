@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Menu = (props) => (
-  <div className="column is-2" style={{padding: 15, position: "fixed", top: 0}}>
+  <div className="column is-2" style={{padding: 15, backgroundColor: "#fff"}}>
     <aside className="menu">
     <p className="title is-4"> Bully-Boo-Boo </p>
     <p className="subtitle is-5"> School Name </p>
