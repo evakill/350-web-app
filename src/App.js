@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route, Switch } from "react-router-dom";
 import Home from './pages/Home.js'
 import Messenger from './pages/Messenger.js'
-import Report from './pages/Report.js'
 import EditQuestions from './pages/EditQuestions.js'
 import Messages from './pages/Messages.js'
 import Reports from './pages/Reports.js'
@@ -15,7 +14,6 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/messenger/" component={Messenger} />
-        <Route path="/report/" component={Report} />
         <Route path="/reports/" component={Reports} />
         <Route path="/messages/" component={Messages} />
         <Route path="/edit/" component={EditQuestions} />
