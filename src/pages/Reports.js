@@ -17,7 +17,6 @@ class Reports extends React.Component {
     fetch('reports/' + school_id )
     .then((response) => response.json())
     .then((json) => {
-      console.log(json)
       this.setState({reports: json})
     })
   }

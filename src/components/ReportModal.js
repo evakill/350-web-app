@@ -49,7 +49,6 @@ class ReportModal extends React.Component {
               </p>
           </div>
           {question_answer ? question_answer.map((qa) => {
-            console.log(qa)
             return(<div style={{borderBottom: "1px solid #e5e5e5", padding: "5px 20px"}}>
               <b>{qa.question}</b>
               <p>{qa.answer}</p>
