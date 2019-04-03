@@ -70,6 +70,11 @@ app.post('/signin', (req, res) => {
           message: 'Error: Invalid Password'
         });
       }
+
+      // return res.send({
+      //     success: true,
+      //     message: 'Valid sign in',
+      //   });
       // Otherwise correct user
       const userSession = new UserSession();
       userSession.userId = school._id;

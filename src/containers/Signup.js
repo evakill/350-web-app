@@ -108,7 +108,7 @@ export default class Signup extends Component  {
             signUpEmail: '',
             signUpPassword: '',
             signUpName:'',
-            token: json.token,
+            // token: json.token,
           });
         } else {
           alert(json.message)

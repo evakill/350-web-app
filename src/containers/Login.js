@@ -22,7 +22,7 @@ export default class Signup extends Component  {
     super(props);
 
     this.state = {
-      isLoading: true,
+      isLoading: false,
       token: '',
       signInError: '',
       signInEmail: '',
@@ -40,7 +40,7 @@ export default class Signup extends Component  {
     // this.logout = this.logout.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
       this.setState({
         isLoading: false,
       }); 
@@ -198,5 +198,6 @@ export default class Signup extends Component  {
     return (
         <Redirect to='/home' />
     );
+
   }
 }
