@@ -14,23 +14,19 @@ export default class Signup extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
-      token:'',
+      isLoading: true,
       email: "",
       password: "",
-      confirmPassword:"",
-      school:"",
-      name:""
+      name:"",
+      newUser: null,
+      error: ""
     };
-    this.onSignUp = this.onSignUp.bind(this);
   }
 
   validateForm() {
     return (
       this.state.email.length > 0 &&
       this.state.password.length > 0 &&
-      this.state.password === this.state.confirmPassword,
-      this.state.school.length > 0,
       this.state.name.length > 0
     );
   }
@@ -41,31 +37,153 @@ export default class Signup extends Component {
     });
   }
 
-  handleSubmit = async event => {
-    event.preventDefault();
+  onSignUp() {
+    // // Grab state
+    // const {
+    //   signUpEmail,
+    //   signUpPassword,
+    //   signUpName,
+    // } = this.state;
 
-    this.setState({ isLoading: true });
-
-    this.setState({ newUser: "test" });
-
-    this.setState({ isLoading: false });
+    this.setState({
+      isLoading: true,
+    });
+    // Post request to backend
+    fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+        name: this.state.name,
+      }),
+    })
+    .then(response=>response.json())
+    .then(json => {
+        console.log('json', json);
+        if (json.success) {
+          alert("Logged In")
+          // this.setState({
+          //   signUpError: json.message,
+          //   isLoading: false,
+          //   signUpEmail: '',
+          //   signUpPassword: '',
+          // });
+        } else {
+          alert(json.message)
+          // this.setState({
+          //   signUpError: json.message,
+          //   isLoading: false,
+          // });
+        }
+      });
+      alert("reached the bottom onsubmit")
   }
 
-  handleConfirmationSubmit = async event => {
-    event.preventDefault();
+  handleSubmit() {
+    // Grab state
+    // const {
+    //   email,
+    //   password,
+    //   name,
+    // } = this.state;
 
-    this.setState({ isLoading: true });
+    // this.setState({
+    //   isLoading: true,
+    // });
+    // Post request to backend
+    alert("we made it")
+    fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.name,
+        name: this.state.password,
+      }),
+    })
+    .then(response=>response.json())
+    .then(json => {
+        alert("we made it in here")
+        console.log('json', json);
+        if (json.success) {
+          alert("Logged In")
+          this.setState({
+            signUpError: json.message,
+            isLoading: false,
+            signUpEmail: '',
+            signUpPassword: '',
+          });
+        } else {
+          alert(json.message)
+          this.setState({
+            signUpError: json.message,
+            isLoading: false,
+          });
+        }
+      });
+
+      alert("reached the bottom")
+
+    // this.setState({ isLoading: true });
+    // alert("It worked!!")
+    // var email = this.email
+    // var name = this.name
+    // var password = this.password
+    // // Post request to backend
+    // fetch('/signup', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   cache: "no-cache",
+    //   body: JSON.stringify({
+    //     email: email,
+    //     password: password,
+    //     name: name,
+    //   }),
+    // }).then(res => res.json())
+    //   .then(json => {
+    //     console.log('json', json);
+    //     if (json.success) {
+    //       alert("It worked!!")
+    //       this.setState({
+    //         error: json.message,
+    //         isLoading: false,
+    //       });
+    //     } else {
+    //       alert(json.message)
+    //       this.setState({
+    //         signUpError: json.message,
+    //         isLoading: false,
+    //       });
+    //     }
+    //   });
   }
+
 
 
   renderForm() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.onSignUp}>
+        <FormGroup controlId="name" bsSize="large">
+          <ControlLabel>Name</ControlLabel>
+          <FormControl
+            autoFocus
+            type="text"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
+        </FormGroup>
         <FormGroup controlId="email" bsSize="large">
           <ControlLabel>Email</ControlLabel>
           <FormControl
             autoFocus
-            type="email"
+            type="text"
             value={this.state.email}
             onChange={this.handleChange}
           />
@@ -75,24 +193,7 @@ export default class Signup extends Component {
           <FormControl
             value={this.state.password}
             onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
-          <FormControl
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-
-        <FormGroup controlId="school" bsSize="large">
-          <ControlLabel>School</ControlLabel>
-          <FormControl
-            value={this.state.school}
-            onChange={this.handleChange}
-            type="password"
+            type="text"
           />
         </FormGroup>
         <Button
@@ -101,18 +202,22 @@ export default class Signup extends Component {
             disabled={!this.validateForm()}
             type="submit"
           >
-            Sign Up
-          </Button>
+            Signup
+        </Button>
+        <button onClick={this.onSignUp}>Sign Up</button>
       </form>
     );
   }
 
   render() {
-    return (
+   return (
       <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
+          {this.renderForm()}
       </div>
     );
   }
 }
+
+
+
+

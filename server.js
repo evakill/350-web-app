@@ -13,6 +13,7 @@ mongoose.connect("mongodb://evakill:cis350@ds223756.mlab.com:23756/cis350", {use
 var Message = require('./models/Message');
 var Report = require('./models/Report');
 var School = require('./models/School');
+const UserSession = require('./models/UserSession');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -31,23 +32,14 @@ app.get('/', function (req, res) {
 /*
    * Sign up
    */
-app.post('/signup', (req, res, next) => {
-  const { body } = req;
-  const {
-    password
-  } = body;
-  let {
-    email
-  } = body;
-  let {
-    name
-  } = body;
-  let {
-    questions
-  } = body
-  
-  email = email.toLowerCase();
-  email = email.trim();
+app.post('/signup', (req, res) => {
+  var name = req.body.name;
+  var email = req.body.email;
+  var password = req.body.password;
+  var questions = ["Please describe the incident."]
+
+  // email = email.toLowerCase();
+  // email = email.trim();
   // Steps:
   // 1. Verify email doesn't exist
   // 2. Save
@@ -66,23 +58,16 @@ app.post('/signup', (req, res, next) => {
       });
     }
     // Save the new user
-    const newSchool = new School();
-    newSchool.email = email;
-    newSchool.password = password;
-    newSchool.name = name;
-    newschool.questions = questions;
+    var newSchool = new School({name, email, password, questions});
 
     newSchool.save((err, user) => {
       if (err) {
-        return res.send({
-          success: false,
-          message: 'Error: Server error'
-        });
+        return res.status(500).send(err);
       }
-      return res.send({
-        success: true,
-        message: 'Signed up'
-      });
+        return res.send({
+          school: newSchool,
+          success: true 
+        });
     });
   });
 }); // end of sign up endpoint

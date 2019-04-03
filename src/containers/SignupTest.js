@@ -42,7 +42,13 @@ export default class Signup extends Component  {
       }); 
   }
 
-
+  // validateForm() {
+  //   return (
+  //     this.state.email.length > 0 &&
+  //     this.state.password.length > 0 &&
+  //     this.state.name.length > 0
+  //   );
+  // }
 
   onTextboxChangeSignInEmail(event) {
     this.setState({
@@ -100,13 +106,12 @@ export default class Signup extends Component  {
     .then(json => {
         console.log('json', json);
         if (json.success) {
-          alert("Signed Up")
+          alert("Logged In")
           this.setState({
             signUpError: json.message,
             isLoading: false,
             signUpEmail: '',
             signUpPassword: '',
-            signUpName:'',
           });
         } else {
           alert(json.message)
@@ -116,6 +121,7 @@ export default class Signup extends Component  {
           });
         }
       });
+    alert("reached the bottom onsubmit")
   }
 
   // onSignIn() {
@@ -210,8 +216,27 @@ export default class Signup extends Component  {
       return (
         <div>
           <div>
-            
-
+            {
+              (signInError) ? (
+                <p>{signInError}</p>
+              ) : (null)
+            }
+            <p>Sign In</p>
+            <input
+              type="email"
+              placeholder="Email"
+              value={signInEmail}
+              onChange={this.onTextboxChangeSignInEmail}
+            />
+            <br />
+            <input
+              type="password"
+              placeholder="Password"
+              value={signInPassword}
+              onChange={this.onTextboxChangeSignInPassword}
+            />
+            <br />
+            <button onClick={this.onSignIn}>Sign In</button>
           </div>
           <br />
           <br />
@@ -222,7 +247,7 @@ export default class Signup extends Component  {
           <ControlLabel>Name</ControlLabel>
           <FormControl
             autoFocus
-            type="name"
+            type="text"
             value={signUpName}
             onChange={this.onTextboxChangeSignUpName}
           />
@@ -241,7 +266,7 @@ export default class Signup extends Component  {
           <FormControl
             value={signUpPassword}
             onChange={this.onTextboxChangeSignUpPassword}
-            type="password"
+            type="text"
           />
         </FormGroup>
         <Button
@@ -253,6 +278,26 @@ export default class Signup extends Component  {
         </Button>
       </form>
       </div>
+            <p>Sign Up</p>
+            <input
+              type="email"
+              placeholder="Email"
+              value={signUpEmail}
+              onChange={this.onTextboxChangeSignUpEmail}
+            /><br />
+            <input
+              type="password"
+              placeholder="Password"
+              value={signUpPassword}
+              onChange={this.onTextboxChangeSignUpPassword}
+            /><br />
+            <input
+              type="name"
+              placeholder="Name"
+              value={signUpName}
+              onChange={this.onTextboxChangeSignUpName}
+            /><br />
+            <button onClick={this.onSignUp}>Sign Up</button>
           </div>
 
         </div>
@@ -261,7 +306,8 @@ export default class Signup extends Component  {
 
     return (
       <div>
-        <p>Signed in</p>
+        <p>Account</p>
+        <button onClick={this.logout}>Logout</button>
       </div>
     );
   }
