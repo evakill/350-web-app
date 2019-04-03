@@ -11,9 +11,9 @@ class ReportModal extends React.Component {
 
   render(){
     var { open, report, toggleModal } = this.props
-    var question_answer = report?JSON.parse(report.question_answer):""
-    var date_of_report = report ? new Date(report.time_of_report) : new Date()
-    var date_of_incident = report ? new Date(report.time_of_incident) : new Date()
+    var question_answer = JSON.parse(report.question_answer)
+    var date_of_report = new Date(report.time_of_report)
+    var date_of_incident = new Date(report.time_of_incident)
     return(
       <div className={open ? "modal is-active" : "modal"}>
         <div className="modal-background" style={{backgroundColor: "#f2f2f2", opacity: 0.9}}></div>
@@ -49,9 +49,10 @@ class ReportModal extends React.Component {
               </p>
           </div>
           {question_answer ? question_answer.map((qa) => {
+            console.log(qa)
             return(<div style={{borderBottom: "1px solid #e5e5e5", padding: "5px 20px"}}>
-              <b>{qa[0]}</b>
-              <p>{qa[1]}</p>
+              <b>{qa.question}</b>
+              <p>{qa.answer}</p>
             </div>)
           }): ""}
           <div>
@@ -61,7 +62,6 @@ class ReportModal extends React.Component {
       </div>
     )
   }
-
 }
 
 export default ReportModal

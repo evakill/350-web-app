@@ -75,10 +75,10 @@ class Reports extends React.Component {
           </div>
         </div>
       </div>
-      <ReportModal
+      {this.state.open ? <ReportModal
         toggleModal={this.toggleModal.bind(this)}
         open={this.state.open}
-        report={this.state.report}/>
+        report={this.state.report}/> : <div></div>}
     </div>
     );
   }
