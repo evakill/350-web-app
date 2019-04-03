@@ -3,7 +3,6 @@ import "./Home.css";
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router';
 import {
-  setInStorage,
   getFromStorage,
 } from '../utils/storage';
 

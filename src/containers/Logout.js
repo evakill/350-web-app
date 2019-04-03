@@ -1,22 +1,8 @@
 import React, { Component } from "react";
-import { Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import 'whatwg-fetch';
-import {
-  HelpBlock,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Button,
-  Navbar,
-  Nav,
-  NavItem,
-
-} from "react-bootstrap";
 import "./Signup.css";
-import Home from '../pages/Home.js'
 import {
-  setInStorage,
   getFromStorage,
 } from '../utils/storage';
 

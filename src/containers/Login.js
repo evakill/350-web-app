@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Route, Link} from "react-router-dom";
+import { Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import 'whatwg-fetch';
 import {
-  HelpBlock,
   FormGroup,
   FormControl,
   ControlLabel,
@@ -14,10 +13,8 @@ import {
 
 } from "react-bootstrap";
 import "./Signup.css";
-import Home from '../pages/Home.js'
 import {
   setInStorage,
-  getFromStorage,
 } from '../utils/storage';
 
 export default class Signup extends Component  {
@@ -27,13 +24,9 @@ export default class Signup extends Component  {
     this.state = {
       isLoading: true,
       token: '',
-      signUpError: '',
       signInError: '',
       signInEmail: '',
       signInPassword: '',
-      signUpEmail: '',
-      signUpPassword: '',
-      signUpName:'',
     };
 
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
@@ -134,13 +127,8 @@ export default class Signup extends Component  {
     const {
       isLoading,
       token,
-      signInError,
       signInEmail,
       signInPassword,
-      signUpEmail,
-      signUpPassword,
-      signUpError,
-      signUpName,
     } = this.state;
 
     if (isLoading) {

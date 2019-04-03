@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Route, Link} from "react-router-dom";
+import { Link} from "react-router-dom";
 import 'whatwg-fetch';
 import {
-  HelpBlock,
   FormGroup,
   FormControl,
   ControlLabel,
@@ -21,8 +20,6 @@ export default class Signup extends Component  {
       isLoading: true,
       token: '',
       signUpError: '',
-      signInError: '',
-      signInEmail: '',
       signInPassword: '',
       signUpEmail: '',
       signUpPassword: '',
@@ -128,12 +125,8 @@ export default class Signup extends Component  {
     const {
       isLoading,
       token,
-      signInError,
-      signInEmail,
-      signInPassword,
       signUpEmail,
       signUpPassword,
-      signUpError,
       signUpName,
     } = this.state;
 
