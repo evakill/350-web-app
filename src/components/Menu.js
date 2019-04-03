@@ -23,7 +23,7 @@ const Menu = (props) => (
       Account
     </p>
     <ul className="menu-list">
-      <li><a>Logout</a></li>
+      <li><Link to="/Login">Logout</Link></li>
     </ul>
   </aside>
 </div>

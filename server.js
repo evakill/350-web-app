@@ -64,6 +64,12 @@ app.post('/signin', (req, res) => {
         });
       }
       const school = schools[0];
+      if (school.password !== password) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid Password'
+        });
+      }
       // Otherwise correct user
       const userSession = new UserSession();
       userSession.userId = school._id;
@@ -187,6 +193,7 @@ app.post('/signup', (req, res) => {
           success: true 
         });
     });
+
   });
 }); // end of sign up endpoint
 

@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+import { Route, Link} from "react-router-dom";
 import 'whatwg-fetch';
 import {
   HelpBlock,
   FormGroup,
   FormControl,
   ControlLabel,
-  Button
+  Button,
+  Navbar,
+  Nav,
+  NavItem,
 } from "react-bootstrap";
 import "./Signup.css";
 
@@ -107,6 +111,7 @@ export default class Signup extends Component  {
             signUpEmail: '',
             signUpPassword: '',
             signUpName:'',
+            token: json.token,
           });
         } else {
           alert(json.message)
@@ -210,7 +215,22 @@ export default class Signup extends Component  {
       return (
         <div>
           <div>
-            
+               <div className="App container">
+      <Navbar fluid collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <Link to="/">Confidely</Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav>
+            <NavItem href="/signup2">Signup</NavItem>
+            <NavItem href="/login">Login</NavItem>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div> 
 
           </div>
           <br />

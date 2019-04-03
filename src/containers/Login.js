@@ -1,13 +1,24 @@
 import React, { Component } from "react";
+import { Route, Link} from "react-router-dom";
+import { Redirect } from 'react-router';
 import 'whatwg-fetch';
 import {
   HelpBlock,
   FormGroup,
   FormControl,
   ControlLabel,
-  Button
+  Button,
+  Navbar,
+  Nav,
+  NavItem,
+
 } from "react-bootstrap";
 import "./Signup.css";
+import Home from '../pages/Home.js'
+import {
+  setInStorage,
+  getFromStorage,
+} from '../utils/storage';
 
 export default class Signup extends Component  {
   constructor(props) {
@@ -31,8 +42,8 @@ export default class Signup extends Component  {
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpName = this.onTextboxChangeSignUpName.bind(this);
     
-    // this.onSignIn = this.onSignIn.bind(this);
-    this.onSignUp = this.onSignUp.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
+    // this.onSignUp = this.onSignUp.bind(this);
     // this.logout = this.logout.bind(this);
   }
 
@@ -98,6 +109,7 @@ export default class Signup extends Component  {
       .then(json => {
         console.log('json', json);
         if (json.success) {
+          alert("Logged In")
           setInStorage('the_main_app', { token: json.token });
           this.setState({
             signInError: json.message,
@@ -107,6 +119,7 @@ export default class Signup extends Component  {
             token: json.token,
           });
         } else {
+          alert(json.message)
           this.setState({
             signInError: json.message,
             isLoading: false,
@@ -163,10 +176,26 @@ export default class Signup extends Component  {
 
     if (!token) {
       return (
+
         <div>
           <div>
             
-
+    <div className="App container">
+      <Navbar fluid collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <Link to="/">Confidely</Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav>
+            <NavItem href="/signup2">Signup</NavItem>
+            <NavItem href="/login">Login</NavItem>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
           </div>
           <br />
           <br />
@@ -195,7 +224,7 @@ export default class Signup extends Component  {
             bsSize="large"
             type="submit"
           >
-            Signup
+            Log In
         </Button>
       </form>
       </div>
@@ -206,9 +235,7 @@ export default class Signup extends Component  {
     }
 
     return (
-      <div>
-        <p>Signed in</p>
-      </div>
+        <Redirect to='../pages/Home.js' />
     );
   }
 }
