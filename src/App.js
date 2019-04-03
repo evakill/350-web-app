@@ -11,6 +11,7 @@ import Reports from './pages/Reports.js'
 import Login from './containers/Login.js'
 import Signup from './containers/Signup.js'
 import Signup2 from './containers/Signup2.js'
+import Logout from './containers/Logout.js'
 
 
 //https://reacttraining.com/react-router/web/guides/basic-components
@@ -29,6 +30,7 @@ class App extends Component {
         <Route path="/login/" component={Login} />
         <Route path="/signup/" component={Signup} />
         <Route path="/signup2/" component={Signup2} />
+        <Route path="/logout/" component={Logout} />
         {/* when none of the above match, <NoMatch> will be rendered */}
         <Route component={Home} />
       </Switch>
