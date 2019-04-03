@@ -1,5 +1,9 @@
 import React from 'react'
 import Menu from '../components/Menu'
+import {
+  setInStorage,
+  getFromStorage,
+} from './utils/storage';
 
 class Home extends React.Component {
   render() {

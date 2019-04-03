@@ -29,6 +29,124 @@ app.get('/ping', function (req, res) {
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
+app.post('/signin', (req, res) => {
+    var email = req.body.email;
+    var password = req.body.password;
+    if (!email) {
+      return res.send({
+        success: false,
+        message: 'Error: Email cannot be blank.'
+      });
+    }
+    if (!password) {
+      return res.send({
+        success: false,
+        message: 'Error: Password cannot be blank.'
+      });
+    }
+    email = email.toLowerCase();
+    email = email.trim();
+    School.find({
+      email: email
+    }, (err, schools) => {
+      if (err) {
+        console.log('err 2:', err);
+        return res.send({
+          success: false,
+          message: 'Error: server error'
+        });
+      }
+      if (schools.length != 1) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid'
+        });
+      }
+      const school = schools[0];
+      // Otherwise correct user
+      const userSession = new UserSession();
+      userSession.userId = school._id;
+      userSession.save((err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: 'Error: server error'
+          });
+        }
+        return res.send({
+          success: true,
+          message: 'Valid sign in',
+          token: doc._id
+        });
+      });
+    });
+  });
+
+app.get('/logout', (req, res) => {
+    // Get the token
+    const { query } = req;
+    const { token } = query;
+    // ?token=test
+    // Verify the token is one of a kind and it's not deleted.
+    UserSession.findOneAndUpdate({
+      _id: token,
+      isDeleted: false
+    }, {
+      $set: {
+        isDeleted:true
+      }
+    }, null, (err, sessions) => {
+      if (err) {
+        console.log(err);
+        return res.send({
+          success: false,
+          message: 'Error: Server error'
+        });
+      }
+      return res.send({
+        success: true,
+        message: 'Good'
+      });
+    });
+  });
+
+/*
+   * Verify a user's action
+   */
+
+app.get('/verify', (req, res) => {
+    // Get the token
+    const { query } = req;
+    const { token } = query;
+    // ?token=test
+    // Verify the token is one of a kind and it's not deleted.
+    UserSession.find({
+      _id: token,
+      isDeleted: false
+    }, (err, sessions) => {
+      if (err) {
+        console.log(err);
+        return res.send({
+          success: false,
+          message: 'Error: Server error'
+        });
+      }
+      if (sessions.length != 1) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid'
+        });
+      } else {
+        // DO ACTION
+        return res.send({
+          success: true,
+          message: 'Good'
+        });
+      }
+    });
+  });
 /*
    * Sign up
    */
