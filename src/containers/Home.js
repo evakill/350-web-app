@@ -52,7 +52,7 @@ componentDidMount() {
           <p>Record it, report it, don’t support it</p>
           <ul className="menu-list">
             <li><Link to="/login">Login</Link></li>
-            <li><Link to="/signup2">Signup</Link></li>
+            <li><Link to="/signup">Signup</Link></li>
           </ul>
         </div>
       </div>

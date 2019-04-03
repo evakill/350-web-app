@@ -1,49 +1,89 @@
 import React, { Component } from "react";
+import { Route, Link} from "react-router-dom";
 import 'whatwg-fetch';
 import {
   HelpBlock,
   FormGroup,
   FormControl,
   ControlLabel,
-  Button
+  Button,
+  Navbar,
+  Nav,
+  NavItem,
 } from "react-bootstrap";
 import "./Signup.css";
 
-export default class Signup extends Component {
+export default class Signup extends Component  {
   constructor(props) {
     super(props);
 
     this.state = {
       isLoading: true,
-      email: "",
-      password: "",
-      name:"",
-      newUser: null,
-      error: ""
+      token: '',
+      signUpError: '',
+      signInError: '',
+      signInEmail: '',
+      signInPassword: '',
+      signUpEmail: '',
+      signUpPassword: '',
+      signUpName:'',
     };
+
+    this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
+    this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
+    this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
+    this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
+    this.onTextboxChangeSignUpName = this.onTextboxChangeSignUpName.bind(this);
+    
+    // this.onSignIn = this.onSignIn.bind(this);
+    this.onSignUp = this.onSignUp.bind(this);
+    // this.logout = this.logout.bind(this);
   }
 
-  validateForm() {
-    return (
-      this.state.email.length > 0 &&
-      this.state.password.length > 0 &&
-      this.state.name.length > 0
-    );
+  componentDidMount() {
+      this.setState({
+        isLoading: false,
+      }); 
   }
 
-  handleChange = event => {
+
+
+  onTextboxChangeSignInEmail(event) {
     this.setState({
-      [event.target.id]: event.target.value
+      signInEmail: event.target.value,
+    });
+  }
+
+  onTextboxChangeSignInPassword(event) {
+    this.setState({
+      signInPassword: event.target.value,
+    });
+  }
+
+  onTextboxChangeSignUpEmail(event) {
+    this.setState({
+      signUpEmail: event.target.value,
+    });
+  }
+
+  onTextboxChangeSignUpPassword(event) {
+    this.setState({
+      signUpPassword: event.target.value,
+    });
+  }
+  onTextboxChangeSignUpName(event) {
+    this.setState({
+      signUpName: event.target.value,
     });
   }
 
   onSignUp() {
-    // // Grab state
-    // const {
-    //   signUpEmail,
-    //   signUpPassword,
-    //   signUpName,
-    // } = this.state;
+    // Grab state
+    const {
+      signUpEmail,
+      signUpPassword,
+      signUpName,
+    } = this.state;
 
     this.setState({
       isLoading: true,
@@ -55,68 +95,23 @@ export default class Signup extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        name: this.state.name,
+        email: signUpEmail,
+        password: signUpPassword,
+        name: signUpName,
       }),
     })
     .then(response=>response.json())
     .then(json => {
         console.log('json', json);
         if (json.success) {
-          alert("Logged In")
-          // this.setState({
-          //   signUpError: json.message,
-          //   isLoading: false,
-          //   signUpEmail: '',
-          //   signUpPassword: '',
-          // });
-        } else {
-          alert(json.message)
-          // this.setState({
-          //   signUpError: json.message,
-          //   isLoading: false,
-          // });
-        }
-      });
-      alert("reached the bottom onsubmit")
-  }
-
-  handleSubmit() {
-    // Grab state
-    // const {
-    //   email,
-    //   password,
-    //   name,
-    // } = this.state;
-
-    // this.setState({
-    //   isLoading: true,
-    // });
-    // Post request to backend
-    alert("we made it")
-    fetch('/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.name,
-        name: this.state.password,
-      }),
-    })
-    .then(response=>response.json())
-    .then(json => {
-        alert("we made it in here")
-        console.log('json', json);
-        if (json.success) {
-          alert("Logged In")
+          alert("Signed Up")
           this.setState({
             signUpError: json.message,
             isLoading: false,
             signUpEmail: '',
             signUpPassword: '',
+            signUpName:'',
+            token: json.token,
           });
         } else {
           alert(json.message)
@@ -126,98 +121,98 @@ export default class Signup extends Component {
           });
         }
       });
-
-      alert("reached the bottom")
-
-    // this.setState({ isLoading: true });
-    // alert("It worked!!")
-    // var email = this.email
-    // var name = this.name
-    // var password = this.password
-    // // Post request to backend
-    // fetch('/signup', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   cache: "no-cache",
-    //   body: JSON.stringify({
-    //     email: email,
-    //     password: password,
-    //     name: name,
-    //   }),
-    // }).then(res => res.json())
-    //   .then(json => {
-    //     console.log('json', json);
-    //     if (json.success) {
-    //       alert("It worked!!")
-    //       this.setState({
-    //         error: json.message,
-    //         isLoading: false,
-    //       });
-    //     } else {
-    //       alert(json.message)
-    //       this.setState({
-    //         signUpError: json.message,
-    //         isLoading: false,
-    //       });
-    //     }
-    //   });
   }
 
 
+  render() {
+    const {
+      isLoading,
+      token,
+      signInError,
+      signInEmail,
+      signInPassword,
+      signUpEmail,
+      signUpPassword,
+      signUpError,
+      signUpName,
+    } = this.state;
 
-  renderForm() {
-    return (
-      <form onSubmit={this.onSignUp}>
+    if (isLoading) {
+      return (<div><p>Loading...</p></div>);
+    }
+
+    if (!token) {
+      return (
+        <div>
+          <div>
+               <div className="App container">
+      <Navbar fluid collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <Link to="/">Confidely</Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav>
+            <NavItem href="/signup">Signup</NavItem>
+            <NavItem href="/login">Login</NavItem>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div> 
+
+          </div>
+          <br />
+          <br />
+          <div>
+          <div className="Signup">
+          <form onSubmit={this.onSignUp}>
         <FormGroup controlId="name" bsSize="large">
           <ControlLabel>Name</ControlLabel>
           <FormControl
             autoFocus
-            type="text"
-            value={this.state.name}
-            onChange={this.handleChange}
+            type="name"
+            value={signUpName}
+            onChange={this.onTextboxChangeSignUpName}
           />
         </FormGroup>
         <FormGroup controlId="email" bsSize="large">
           <ControlLabel>Email</ControlLabel>
           <FormControl
             autoFocus
-            type="text"
-            value={this.state.email}
-            onChange={this.handleChange}
+            type="email"
+            value={signUpEmail}
+            onChange={this.onTextboxChangeSignUpEmail}
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
           <ControlLabel>Password</ControlLabel>
           <FormControl
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="text"
+            value={signUpPassword}
+            onChange={this.onTextboxChangeSignUpPassword}
+            type="password"
           />
         </FormGroup>
         <Button
             block
             bsSize="large"
-            disabled={!this.validateForm()}
             type="submit"
           >
             Signup
         </Button>
-        <button onClick={this.onSignUp}>Sign Up</button>
       </form>
-    );
-  }
+      </div>
+          </div>
 
-  render() {
-   return (
-      <div className="Signup">
-          {this.renderForm()}
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <p>Signed in</p>
       </div>
     );
   }
 }
-
-
-
-

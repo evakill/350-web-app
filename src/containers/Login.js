@@ -128,34 +128,7 @@ export default class Signup extends Component  {
       });
   }
 
-  // logout() {
-  //   this.setState({
-  //     isLoading: true,
-  //   });
-  //   const obj = getFromStorage('the_main_app');
-  //   if (obj && obj.token) {
-  //     const { token } = obj;
-  //     // Verify token
-  //     fetch('/api/account/logout?token=' + token)
-  //       .then(res => res.json())
-  //       .then(json => {
-  //         if (json.success) {
-  //           this.setState({
-  //             token: '',
-  //             isLoading: false
-  //           });
-  //         } else {
-  //           this.setState({
-  //             isLoading: false,
-  //           });
-  //         }
-  //       });
-  //   } else {
-  //     this.setState({
-  //       isLoading: false,
-  //     });
-  //   }
-  // }
+
 
   render() {
     const {
@@ -190,7 +163,7 @@ export default class Signup extends Component  {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem href="/signup2">Signup</NavItem>
+            <NavItem href="/signup">Signup</NavItem>
             <NavItem href="/login">Login</NavItem>
           </Nav>
         </Navbar.Collapse>
@@ -235,7 +208,7 @@ export default class Signup extends Component  {
     }
 
     return (
-        <Redirect to='../pages/Home.js' />
+        <Redirect to='/home' />
     );
   }
 }

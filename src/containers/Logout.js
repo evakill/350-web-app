@@ -21,15 +21,15 @@ import {
 } from '../utils/storage';
 
 export default class Logout extends Component  {
-    constructor(props) {
+  constructor(props) {
     super(props);
 
     this.state = {
-      isLoggedout: false,
+      islogout: false,
     };
   }
 
-componentDidMount() {
+  componentDidMount() {
     const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
@@ -39,12 +39,11 @@ componentDidMount() {
         .then(json => {
           if (json.success) {
             this.setState({
-              isLoggedout: true
+              islogout: true,
             });
-
           } else {
             this.setState({
-              isLoggedout: false,
+              islogout: false,
             });
           }
         });
@@ -56,17 +55,8 @@ componentDidMount() {
   }
 
 render() {
-    const {
-      isLoggedout,
-    } = this.state;
-    if (isLoggedout) {
-      return (
+    return (
         <Redirect to='/' />
       );
-    } else {
-      return (
-        <Redirect to='/home' />
-      );
-    }
   }
 }
