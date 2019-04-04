@@ -13,8 +13,18 @@ class MessageList extends React.Component {
             sendstate: this.props.sendstate
         }
     }
+
+    scrollToBottom() {
+      var element = document.getElementById("see-me");
+      element.scrollIntoView();
+    }
+    
+    componentDidUpdate() {
+      this.scrollToBottom();
+    }
+
     render () {
-        return(
+        return (
             <div className = "messagelist">
                 <ul className = "thread">
                 {this.props.messages.map(m => {
@@ -24,6 +34,7 @@ class MessageList extends React.Component {
                         return (<MessageReceive text={m.text}/>)
                     }
                 })}
+                <div id="see-me"></div>
                 </ul>
             </div>
         )

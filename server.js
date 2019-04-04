@@ -201,7 +201,7 @@ app.post('/signup', (req, res) => {
       }
         return res.send({
           school: newSchool,
-          success: true 
+          success: true
         });
     });
 
@@ -285,7 +285,7 @@ app.post('/messages/new', function (req, res) {
   var recipient_id = req.body.recipient_id;
   var text = req.body.text;
   var timestamp = new Date();
-  
+
   var message = new Message({sender_id, recipient_id, text, timestamp});
 
   // Get the report
@@ -305,12 +305,12 @@ app.post('/messages/new', function (req, res) {
         if (err) {
           return res.status(500).send(err);
         }
-
         io.emit('message', msg);
-        return res.sendStatus(200);
-      });
+      })
+      console.log(report)
+      return res.send(report)
     });
-  });
+  })
 });
 
 app.get('/questions/:school_id', function (req, res) {
