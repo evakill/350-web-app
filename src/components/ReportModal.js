@@ -18,8 +18,8 @@ class ReportModal extends React.Component {
       <div className={open ? "modal is-active" : "modal"}>
         <div className="modal-background" style={{backgroundColor: "#f2f2f2", opacity: 0.9}}></div>
         <div className="card" style={{borderRadius: 5, width: "80%"}}>
-          <header class="card-header is-flex" style={{justifyContent: "space-between", alignItems:"center"}}>
-            <h1 class="card-header-title">
+          <header className="card-header is-flex" style={{justifyContent: "space-between", alignItems:"center"}}>
+            <h1 className="card-header-title">
               {report ? report.name : ""}
             </h1>
             <span
@@ -55,7 +55,7 @@ class ReportModal extends React.Component {
             </div>)
           }): ""}
           <div>
-            <Link to="/Messages"><button className="button" style={{margin: 20, float: "right"}}>See Messages</button></Link>
+            <Link to={{pathname: '/messenger', state: {report: report}}}><button className="button" style={{margin: 20, float: "right"}}>See Messages</button></Link>
           </div>
         </div>
       </div>
