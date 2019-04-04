@@ -24,7 +24,7 @@ const Menu = (props) => (
       Account
     </p>
     <ul className="menu-list">
-      <li><a>Logout</a></li>
+      <li><Link to="/logout">Logout</Link></li>
     </ul>
   </aside>
 </div>
