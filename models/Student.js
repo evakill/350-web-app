@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var StudentSchema = new Schema ({
     username: {
@@ -15,4 +16,4 @@ var StudentSchema = new Schema ({
     }
 })
 
-module.exports = model('User', StudentSchema)
+module.exports = mongoose.model('Student', StudentSchema)

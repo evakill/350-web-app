@@ -3,20 +3,27 @@ import '../styles/MessageView.css';
 import MessagesList from './MessagesList';
 import InputLine from './InputLine';
 import axios from 'axios';
-// Pass the report object and the user object
+import { Link } from 'react-router-dom'
+
+// Pass: report_id, report_title, student_id
 
 class MessageView extends React.Component {
     constructor(props) {
       super(props)
+      const { report } = this.props.location.state
+      console.log(report)
+
       this.state = {
         messages: [],
-        report_id: "5ca1232c30973a8280ebbad2",
-        sender_id: '1', //this needs to be the id taken from cookies
+        report_id: report._id || '5ca1232c30973a8280ebbad2',
+        report_title: report.name || 'Student Report',
+        sender_id: this.props.sender_id || '1', //this needs to be the id taken from cookies
+        student_id: report.student_id || '2',
+        sendstate: false
       }
       this.sendMessage = this.sendMessage.bind(this);
     }
     componentWillMount() {
-      this.setState({report_id: this.props.report_id});
       axios.get('http://localhost:8080/messages?report_id=' + this.state.report_id)
       .then((resp) => {
         console.log("Messages Fetch Response: ", resp);
@@ -24,31 +31,42 @@ class MessageView extends React.Component {
       })
       .catch(err => console.log("Message Fetch Error Response: ", err));
     }
-    componentDidMount() {
-      // this.setState({messages: DUMMY_DATA})
-    }
     showReport() {
       return;
     }
     sendMessage(text) {
-      var oldMessages = this.state.messages;
-      oldMessages.push({id: "tiff", username: "Tiffany", text: text});
-      console.log(oldMessages);
-      this.setState({messages: oldMessages});
+      var messages = this.state.messages;
+      axios.post('http://localhost:8080/messages/new',
+        {
+          report_id: this.state.report_id,
+          sender_id: this.state.sender_id,
+          recipient_id: this.state.student_id,
+          text: text
+        }
+      , function(err, res) {
+        if (err) {
+          console.log(err);
+          return;
+        } else {
+          console.log(res);
+          this.setState({sendstate: !this.state.sendstate});
+        }
+      });
+      
     }
     render() {
       return(
         <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
           <div className="namebar" style={{display: "flex"}}>
             <div style={{alignItems: "center"}}>
-                <h1 className = "title is-5">Student's name</h1>
-                <h2 className = "subtitle is-6">Report Title</h2>
+                <h1 className = "title is-5">{this.state.report_title}</h1>
+                <h2 className = "subtitle is-6">Report Id: {this.state.report_id}</h2>
             </div>
             <div style={{float: "right", position: "fixed", right: "1em"}}>
-              <button className="button" onClick={this.showReport()}>View Report</button>
+            <Link to={'/reports'}><button className="button" onClick={this.showReport()}>View Reports</button></Link>
             </div>
           </div>
-          <MessagesList messages={this.state.messages} sender_id={this.state.sender_id}/>
+          <MessagesList messages={this.state.messages} sender_id={this.state.sender_id} sendstate={this.state.sendstate}/>
           <InputLine submit={this.sendMessage}/>
         </div>
       )
