@@ -11,8 +11,6 @@ class MessageView extends React.Component {
     constructor(props) {
       super(props)
       const { report } = this.props.location.state
-      console.log(report)
-      // this.setState({report_id: report.report_id, recipient_id: report.student_id, report_title: report.name})
 
       this.state = {
         messages: [],
