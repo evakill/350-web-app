@@ -14,6 +14,8 @@ mongoose.connect(process.env.MONGODB_URI);
 var Message = require('./models/Message');
 var Report = require('./models/Report');
 var School = require('./models/School');
+var Student = require('./models/Student');
+
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -60,7 +62,7 @@ app.post('/reports/new', function (req, res) {
   var time_of_incident = new Date();
   var time_of_report = new Date();
   var category = req.body.category;
-  var question_answer = [];
+  var question_answer = req.body.question_answer;;
 
   var report = new Report({
     student_id,
@@ -68,13 +70,32 @@ app.post('/reports/new', function (req, res) {
     time_of_incident,
     time_of_report,
     name,
-    category
+    category,
+    question_answer
   });
   report.save(function(err, rpt) {
     if (err) {
       return res.status(500).send(err);
     }
-    return res.sendStatus(200);
+    return res.send(rpt);
+  });
+});
+
+app.post('/student/new', function (req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var school = req.body.school;
+
+  var student = new Student({
+    username,
+    password,
+    school
+  });
+  student.save(function(err, stud) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.send(stud);
   });
 });
 
@@ -171,6 +192,27 @@ app.post('/question/delete/:school_id', function (req, res) {
       }
       return res.send(school.questions)
     });
+  });
+});
+
+app.get('/reports/:school_id', function (req, res) {
+  var school_id = req.params.school_id;
+  Report.find({}, function (err, reports) {
+    if (err || !reports) {
+      return res.status(500).send(err);
+    }
+    reports = reports.filter(report => report.school_id == school_id);
+    return res.send(reports)
+  });
+});
+
+app.get('/reports/clear/:school_id', function (req, res) {
+  var school_id = req.params.school_id;
+  Report.deleteMany({school_id: school_id}, function (err, reports) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.send(reports)
   });
 });
 
