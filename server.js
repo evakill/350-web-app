@@ -83,12 +83,11 @@ app.post('/messages/new', function (req, res) {
   if (!report_id) {
     return res.status(400).send("Missing report_id.");
   }
-
   var sender_id = req.body.sender_id;
   var recipient_id = req.body.recipient_id;
   var text = req.body.text;
   var timestamp = new Date();
-
+  
   var message = new Message({sender_id, recipient_id, text, timestamp});
 
   // Get the report

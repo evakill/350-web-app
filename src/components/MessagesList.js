@@ -9,7 +9,8 @@ class MessageList extends React.Component {
         super(props)
         this.state = {
             userid: this.props.sender_id,
-            messages: props.messages
+            messages: this.props.messages,
+            sendstate: this.props.sendstate
         }
     }
     render () {

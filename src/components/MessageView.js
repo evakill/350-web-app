@@ -10,13 +10,14 @@ class MessageView extends React.Component {
       super(props)
       this.state = {
         messages: [],
-        report_id: "5ca1232c30973a8280ebbad2",
-        sender_id: '1', //this needs to be the id taken from cookies
+        report_id: this.props.report_id || '5ca1232c30973a8280ebbad2',
+        sender_id: this.props.sender_id || '1', //this needs to be the id taken from cookies
+        student_id: this.props.student_id || '2',
+        sendstate: false
       }
       this.sendMessage = this.sendMessage.bind(this);
     }
     componentWillMount() {
-      this.setState({report_id: this.props.report_id});
       axios.get('http://localhost:8080/messages?report_id=' + this.state.report_id)
       .then((resp) => {
         console.log("Messages Fetch Response: ", resp);
@@ -24,17 +25,28 @@ class MessageView extends React.Component {
       })
       .catch(err => console.log("Message Fetch Error Response: ", err));
     }
-    componentDidMount() {
-      // this.setState({messages: DUMMY_DATA})
-    }
     showReport() {
       return;
     }
     sendMessage(text) {
-      var oldMessages = this.state.messages;
-      oldMessages.push({id: "tiff", username: "Tiffany", text: text});
-      console.log(oldMessages);
-      this.setState({messages: oldMessages});
+      var messages = this.state.messages;
+      axios.post('http://localhost:8080/messages/new',
+        {
+          report_id: this.state.report_id,
+          sender_id: this.state.sender_id,
+          recipient_id: this.state.student_id,
+          text: text
+        }
+      , function(err, res) {
+        if (err) {
+          console.log(err);
+          return;
+        } else {
+          console.log(res);
+          this.setState({sendstate: !this.state.sendstate});
+        }
+      });
+      
     }
     render() {
       return(
@@ -48,7 +60,7 @@ class MessageView extends React.Component {
               <button className="button" onClick={this.showReport()}>View Report</button>
             </div>
           </div>
-          <MessagesList messages={this.state.messages} sender_id={this.state.sender_id}/>
+          <MessagesList messages={this.state.messages} sender_id={this.state.sender_id} sendstate={this.state.sendstate}/>
           <InputLine submit={this.sendMessage}/>
         </div>
       )
