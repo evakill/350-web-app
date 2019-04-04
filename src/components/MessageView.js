@@ -3,6 +3,7 @@ import '../styles/MessageView.css';
 import MessagesList from './MessagesList';
 import InputLine from './InputLine';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 // Pass: report_id, report_title, student_id
 
@@ -63,7 +64,7 @@ class MessageView extends React.Component {
                 <h2 className = "subtitle is-6">Report Id: {this.state.report_id}</h2>
             </div>
             <div style={{float: "right", position: "fixed", right: "1em"}}>
-              <button className="button" onClick={this.showReport()}>View Report</button>
+            <Link to={'/reports'}><button className="button" onClick={this.showReport()}>View Reports</button></Link>
             </div>
           </div>
           <MessagesList messages={this.state.messages} sender_id={this.state.sender_id} sendstate={this.state.sendstate}/>
