@@ -3,7 +3,8 @@ import '../styles/MessageView.css';
 import MessagesList from './MessagesList';
 import InputLine from './InputLine';
 import axios from 'axios';
-// Pass the report object and the user object
+
+// Pass: report_id, report_title, student_id
 
 class MessageView extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class MessageView extends React.Component {
       this.state = {
         messages: [],
         report_id: this.props.report_id || '5ca1232c30973a8280ebbad2',
+        report_title: this.props.report_title || 'Student Report',
         sender_id: this.props.sender_id || '1', //this needs to be the id taken from cookies
         student_id: this.props.student_id || '2',
         sendstate: false
@@ -53,8 +55,8 @@ class MessageView extends React.Component {
         <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
           <div className="namebar" style={{display: "flex"}}>
             <div style={{alignItems: "center"}}>
-                <h1 className = "title is-5">Student's name</h1>
-                <h2 className = "subtitle is-6">Report Title</h2>
+                <h1 className = "title is-5">{this.state.report_title}</h1>
+                <h2 className = "subtitle is-6">{this.state.report_id}</h2>
             </div>
             <div style={{float: "right", position: "fixed", right: "1em"}}>
               <button className="button" onClick={this.showReport()}>View Report</button>
