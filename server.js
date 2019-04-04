@@ -307,7 +307,6 @@ app.post('/messages/new', function (req, res) {
         }
         io.emit('message', msg);
       })
-      console.log(report)
       return res.send(report)
     });
   })
