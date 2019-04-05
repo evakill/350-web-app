@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from "react-router-dom";
 import Home from './pages/Home.js'
 import LandingPage from './containers/Home.js'
-import Messenger from './pages/Messenger.js'
+import Messenger from './components/MessageView.js'
 import EditQuestions from './pages/EditQuestions.js'
 import Messages from './pages/Messages.js'
 import Reports from './pages/Reports.js'
