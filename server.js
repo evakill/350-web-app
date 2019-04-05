@@ -178,18 +178,19 @@ app.post('/signup', (req, res) => {
   // Steps:
   // 1. Verify email doesn't exist
   // 2. Save
-  School.find({
-    email: email
-  }, (err, previousUsers) => {
+
+  School.count({
+    name: name
+  }, (err, count) => {
     if (err) {
       return res.send({
         success: false,
         message: 'Error: Server error'
       });
-    } else if (previousUsers.length > 0) {
+    } else if (count > 0) {
       return res.send({
         success: false,
-        message: 'Error: Account already exist.'
+        message: 'Error: School already exist. Try logging in instead.'
       });
     }
     // Save the new user

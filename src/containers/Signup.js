@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link} from "react-router-dom";
+import { Redirect } from 'react-router';
 import 'whatwg-fetch';
 import {
   FormGroup,
@@ -24,6 +25,7 @@ export default class Signup extends Component  {
       signUpEmail: '',
       signUpPassword: '',
       signUpName:'',
+      success:false,
     };
 
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
@@ -109,6 +111,7 @@ export default class Signup extends Component  {
             signUpPassword: '',
             signUpName:'',
             // token: json.token,
+            success:true,
           });
         } else {
           alert(json.message)
@@ -128,13 +131,14 @@ export default class Signup extends Component  {
       signUpEmail,
       signUpPassword,
       signUpName,
+      success,
     } = this.state;
 
     if (isLoading) {
       return (<div><p>Loading...</p></div>);
     }
 
-    if (!token) {
+    if (!success) {
       return (
         <div>
           <div>
@@ -203,9 +207,7 @@ export default class Signup extends Component  {
     }
 
     return (
-      <div>
-        <p>Signed in</p>
-      </div>
+      <Redirect to='/home' />
     );
   }
 }
