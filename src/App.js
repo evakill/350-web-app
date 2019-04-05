@@ -2,16 +2,14 @@
 import React, { Component } from 'react';
 import { Route, Switch } from "react-router-dom";
 import Home from './pages/Home.js'
-// import Messenger from './pages/Messenger.js'
+import LandingPage from './containers/Home.js'
+import Messenger from './components/MessageView.js'
 import EditQuestions from './pages/EditQuestions.js'
 import Messages from './pages/Messages.js'
-import LandingPage from './containers/Home.js'
-import Messenger from './pages/Messenger.js'
 import Reports from './pages/Reports.js'
 import Login from './containers/Login.js'
 import Signup from './containers/Signup.js'
 import Logout from './containers/Logout.js'
-
 
 //https://reacttraining.com/react-router/web/guides/basic-components
 

@@ -201,7 +201,7 @@ app.post('/signup', (req, res) => {
       }
         return res.send({
           school: newSchool,
-          success: true 
+          success: true
         });
     });
 
@@ -281,7 +281,6 @@ app.post('/messages/new', function (req, res) {
   if (!report_id) {
     return res.status(400).send("Missing report_id.");
   }
-
   var sender_id = req.body.sender_id;
   var recipient_id = req.body.recipient_id;
   var text = req.body.text;
@@ -306,12 +305,11 @@ app.post('/messages/new', function (req, res) {
         if (err) {
           return res.status(500).send(err);
         }
-
         io.emit('message', msg);
-        return res.sendStatus(200);
-      });
+      })
+      return res.send(report)
     });
-  });
+  })
 });
 
 app.get('/questions/:school_id', function (req, res) {

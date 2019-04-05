@@ -142,7 +142,7 @@ export default class Signup extends Component  {
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Confidely</Link>
+            <Link to="/">BullyBye</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
