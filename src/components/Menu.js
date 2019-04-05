@@ -10,8 +10,7 @@ const Menu = (props) => (
       View
     </p>
     <ul className="menu-list">
-    <li><Link to="/home">Home</Link></li>
-      <li><Link to="/messages">Messages</Link></li>
+      <li><Link to="/home">Home</Link></li>
       <li><Link to="/reports">Reports</Link></li>
     </ul>
     <p className="menu-label">
