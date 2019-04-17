@@ -319,7 +319,8 @@ app.get('/questions/:school_id', function (req, res) {
     if (err || !school) {
       return res.status(500).send(err);
     }
-    return res.send(school.questions)
+    var questionObject = {questions: school.questions};
+    return res.send(questionObject)
   });
 });
 
