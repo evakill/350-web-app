@@ -34,7 +34,7 @@ export default class Signup extends Component  {
     this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpName = this.onTextboxChangeSignUpName.bind(this);
-    
+
     this.onSignIn = this.onSignIn.bind(this);
     // this.onSignUp = this.onSignUp.bind(this);
     // this.logout = this.logout.bind(this);
@@ -43,7 +43,7 @@ export default class Signup extends Component  {
   componentWillMount() {
       this.setState({
         isLoading: false,
-      }); 
+      });
   }
 
 
@@ -100,7 +100,6 @@ export default class Signup extends Component  {
       }),
     }).then(res => res.json())
       .then(json => {
-        console.log('json', json);
         if (json.success) {
           alert("Logged In")
           setInStorage('the_main_app', { token: json.token });
@@ -140,7 +139,7 @@ export default class Signup extends Component  {
 
         <div>
           <div>
-            
+
     <div className="App container">
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
