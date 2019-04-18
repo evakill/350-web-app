@@ -21,10 +21,10 @@ const UserSession = require('./models/UserSession');
 var Student = require('./models/Student');
 
 
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-io.on('connection', () =>{
+io.on('connection', (socket) =>{
  console.log('A user has connected.')
 })
 
@@ -394,5 +394,9 @@ app.get('/reports/clear/:school_id', function (req, res) {
     return res.send(reports)
   });
 });
+
+server.listen(8000, function(){
+  console.log('listening')
+})
 
 app.listen(process.env.PORT || 8080);
