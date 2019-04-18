@@ -259,10 +259,10 @@ app.post('/reports/new', function (req, res) {
   });
 });
 
-app.post('/student/new', function (req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
-  var school = req.body.school;
+app.get('/student/new', function (req, res) {
+  var username = req.query.username;
+  var password = req.query.password;
+  var school = req.query.school;
   School.find({
       name: school
     }, (err, schools) => {
@@ -306,6 +306,56 @@ app.post('/student/new', function (req, res) {
      });
   });
 });
+
+app.get('/schoolverify', function (req, res){
+  var schoolName = req.query.schoolName;
+  School.find({
+      name: schoolName
+    }, (err, schools) => {
+      if (err) {
+        console.log('err 2:', err);
+        return res.send({
+          success: false,
+          message: 'Error: server error'
+        });
+      }
+      if (schools.length != 1) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid'
+        });
+      }
+      const school = schools[0];
+      return res.send({
+          success: true,
+          message: 'Valid School',
+          school: school,
+        });
+    });
+})
+
+app.get('/studentverify', function(req, res) {
+  var studentName = req.query.studentName;
+  Student.count({
+        username: studentName
+      }, (err, count) => {
+        if (err) {
+          return res.send({
+            success: false,
+            message: 'Error: Server error'
+          });
+        } else if (count > 0) {
+          return res.send({
+            success: false,
+            message: 'Error: Username already exist. Try logging in instead.'
+          });
+        }
+        return res.send({
+          success: true,
+          message: 'Valid Username',
+        });
+      });
+    });
 
 
 app.get('/androidstudent/signin', function (req, res) {
