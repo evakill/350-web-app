@@ -259,10 +259,10 @@ app.post('/reports/new', function (req, res) {
   });
 });
 
-app.get('/student/new', function (req, res) {
-  var username = req.query.username;
-  var password = req.query.password;
-  var school = req.query.school;
+app.post('/student/new', function (req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var school = req.body.school;
   School.find({
       name: school
     }, (err, schools) => {
