@@ -233,13 +233,14 @@ app.get('/messages', function (req, res) {
 });
 
 app.post('/reports/new', function (req, res) {
+  console.log(req.body)
   var student_id = req.body.student_id;
   var school_id = req.body.school_id;
   var name = req.body.name;
-  var time_of_incident = new Date();
+  var time_of_incident = new Date(req.body.time_of_incident);
   var time_of_report = new Date();
   var category = req.body.category;
-  var question_answer = req.body.question_answer;;
+  var question_answer = [];
 
   var report = new Report({
     student_id,
@@ -377,8 +378,30 @@ app.get('/reports/:school_id', function (req, res) {
     if (err || !reports) {
       return res.status(500).send(err);
     }
-    reports = reports.filter(report => report.school_id == school_id);
+    reports = reports.filter(report => report.school_id === school_id);
     return res.send(reports)
+  });
+});
+
+app.get('/reports/student/:student_id', function (req, res) {
+  var student_id = req.params.student_id;
+  Report.find({student_id: student_id}, function (err, reports) {
+    if (err || !reports) {
+      return res.status(500).send(err);
+    }
+    console.log("returning reports by student: ", reports)
+    return res.send(reports)
+  });
+});
+
+app.get('/reports/id/:report_id', function (req, res) {
+  var report_id = req.params.report_id;
+  Report.find({_id: report_id}, function (err, report) {
+    if (err || !report) {
+      return res.status(500).send(err);
+    }
+    console.log("returning report by id: ", report)
+    return res.send(report)
   });
 });
 
