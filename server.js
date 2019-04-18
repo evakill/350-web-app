@@ -306,7 +306,8 @@ app.post('/messages/new', function (req, res) {
         if (err) {
           return res.status(500).send(err);
         }
-        io.emit('message', msg);
+        json = {report_id: report_id, message: msg}
+        io.emit('new message', json);
       })
       return res.send(report)
     });
