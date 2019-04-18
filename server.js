@@ -392,8 +392,35 @@ app.get('/reports/student/:student_id', function (req, res) {
     if (err || !reports) {
       return res.status(500).send(err);
     }
-    console.log("returning reports by student: ", reports)
-    return res.send(reports)
+    var last_msg_ids = []
+    reports.forEach(function(report) {
+      if (report.messages.length > 0) {
+        last_msg = report.messages[report.messages.length - 1]
+        last_msg_ids.push(last_msg);
+      }
+    })
+
+    Message.find({'_id': {$in: last_msg_ids}}, function(err, msgs) {
+      if (err || !reports) {
+        return res.status(500).send(err);
+      }
+      var json_array = []
+      reports.forEach(function(report) {
+        last_message = null
+        if (report.messages.length > 0) {
+          last_msg_id = report.messages[report.messages.length - 1]
+          msgs.forEach(function(message) {
+            if (last_msg_id.equals(message._id)) {
+              last_message = message
+            }
+          })
+        }
+        json_array.push({report: report, last_message: last_message})
+      })
+      // console.log(json_array)
+      console.log("returning reports by student: ", json_array)
+      return res.send(json_array)
+    })
   });
 });
 
