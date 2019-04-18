@@ -21,10 +21,10 @@ const UserSession = require('./models/UserSession');
 var Student = require('./models/Student');
 
 
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-io.on('connection', () =>{
+io.on('connection', (socket) =>{
  console.log('A user has connected.')
 })
 
@@ -178,18 +178,19 @@ app.post('/signup', (req, res) => {
   // Steps:
   // 1. Verify email doesn't exist
   // 2. Save
-  School.find({
-    email: email
-  }, (err, previousUsers) => {
+
+  School.count({
+    name: name
+  }, (err, count) => {
     if (err) {
       return res.send({
         success: false,
         message: 'Error: Server error'
       });
-    } else if (previousUsers.length > 0) {
+    } else if (count > 0) {
       return res.send({
         success: false,
-        message: 'Error: Account already exist.'
+        message: 'Error: School already exist. Try logging in instead.'
       });
     }
     // Save the new user
@@ -306,7 +307,8 @@ app.post('/messages/new', function (req, res) {
         if (err) {
           return res.status(500).send(err);
         }
-        io.emit('message', msg);
+        json = {report_id: report_id, message: msg}
+        io.emit('new message', json);
       })
       return res.send(report)
     });
@@ -319,7 +321,8 @@ app.get('/questions/:school_id', function (req, res) {
     if (err || !school) {
       return res.status(500).send(err);
     }
-    return res.send(school.questions)
+    var questionObject = {questions: school.questions};
+    return res.send(questionObject)
   });
 });
 
@@ -414,5 +417,9 @@ app.get('/reports/clear/:school_id', function (req, res) {
     return res.send(reports)
   });
 });
+
+server.listen(8000, function(){
+  console.log('listening')
+})
 
 app.listen(process.env.PORT || 8080);

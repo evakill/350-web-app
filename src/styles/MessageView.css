@@ -22,7 +22,6 @@
 
 .thread {
     position: absolute;
-    bottom: 150px;
     width: 100%;
     height: 38em;
     overflow: scroll;
