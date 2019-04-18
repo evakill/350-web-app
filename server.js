@@ -324,6 +324,16 @@ app.get('/questions/:school_id', function (req, res) {
   });
 });
 
+app.get('/schools', function (req, res) {
+  School.find((err, schools) => {
+    if (!schools) {
+      return res.status(404).send(err);
+    }
+    console.log("Returning these schools " + schools);
+    return res.send(schools);
+  })
+});
+
 app.post('/school/new', function (req, res) {
   var name = req.body.name;
   var email = req.body.email;
@@ -341,6 +351,7 @@ app.post('/school/new', function (req, res) {
 app.post('/question/new/:school_id', function (req, res) {
   var question = req.body.question
   var school_id = req.params.school_id
+  console.log("posting question for this id: " + school_id);
   School.findById(school_id, function(err, school) {
     if (err) {
       return res.status(500).send(err);

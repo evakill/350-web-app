@@ -11,7 +11,7 @@ class MessageView extends React.Component {
     constructor(props) {
       super(props)
       const { report } = this.props.location.state
-
+      //TODO: need to edit out the static school id
       this.state = {
         messages: [],
         report_id: report._id || '5ca1232c30973a8280ebbad2',
