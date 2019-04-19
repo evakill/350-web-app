@@ -234,7 +234,6 @@ app.get('/messages', function (req, res) {
 });
 
 app.post('/reports/new', function (req, res) {
-  console.log(JSON.parse(req.body.question_answer))
   var student_id = req.body.student_id;
   var school_id = req.body.school_id;
   var name = req.body.name;
@@ -396,7 +395,7 @@ app.get('/reports/student/:student_id', function (req, res) {
     var last_msg_ids = []
     reports.forEach(function(report) {
       if (report.messages.length > 0) {
-        last_msg = report.messages[report.messages.length - 1]
+        var last_msg = report.messages[report.messages.length - 1]
         last_msg_ids.push(last_msg);
       }
     })
@@ -407,9 +406,9 @@ app.get('/reports/student/:student_id', function (req, res) {
       }
       var json_array = []
       reports.forEach(function(report) {
-        last_message = null
+        var last_message = null
         if (report.messages.length > 0) {
-          last_msg_id = report.messages[report.messages.length - 1]
+          var last_msg_id = report.messages[report.messages.length - 1]
           msgs.forEach(function(message) {
             if (last_msg_id.equals(message._id)) {
               last_message = message
@@ -419,7 +418,6 @@ app.get('/reports/student/:student_id', function (req, res) {
         json_array.push({report: report, last_message: last_message})
       })
       // console.log(json_array)
-      console.log("returning reports by student: ", json_array)
       return res.send(json_array)
     })
   });
@@ -427,11 +425,11 @@ app.get('/reports/student/:student_id', function (req, res) {
 
 app.get('/reports/id/:report_id', function (req, res) {
   var report_id = req.params.report_id;
-  Report.find({_id: report_id}, function (err, report) {
+  Report.findById(report_id, function (err, report) {
     if (err || !report) {
       return res.status(500).send(err);
     }
-    return res.send(report)
+    return res.send([{"report": report}]);
   });
 });
 
