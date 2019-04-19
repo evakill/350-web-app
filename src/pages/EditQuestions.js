@@ -13,7 +13,7 @@ class EditQuestions extends React.Component {
 
   componentWillMount() {
     var school_id = this.props.school_id ? this.props.school_id : "5ca3694b2038d1644cc1d9d0"
-    fetch('questions/' + school_id )
+    fetch('questions/' + school_id)
     .then((response) => response.json())
     .then((json) => {
       this.setState({questions: json})
