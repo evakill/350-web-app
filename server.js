@@ -273,19 +273,134 @@ app.post('/student/new', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
   var school = req.body.school;
+  School.find({
+      name: school
+    }, (err, schools) => {
+      if (err) {
+          return res.status(500).send(err);
+      }
+      if (schools.length != 1) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid'
+        });
+      }
+      Student.count({
+        username: username
+      }, (err, count) => {
+        if (err) {
+          return res.send({
+            success: false,
+            message: 'Error: Server error'
+          });
+        } else if (count > 0) {
+          return res.send({
+            success: false,
+            message: 'Error: Username already exist. Try logging in instead.'
+          });
+        }
+      var schoolObj = schools[0];
+      var school = schoolObj._id.toString()
 
-  var student = new Student({
-    username,
-    password,
-    school
-  });
-  student.save(function(err, stud) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.send(stud);
+    var student = new Student({
+      username,
+      password,
+      school,
+    });
+        student.save(function(err, stud) {
+          if (err) {
+            return res.status(500).send(err);
+          }
+          return res.send(stud);
+        });
+     });
   });
 });
+
+app.get('/schoolverify', function (req, res){
+  var schoolName = req.query.schoolName;
+  School.find({
+      name: schoolName
+    }, (err, schools) => {
+      if (err) {
+        console.log('err 2:', err);
+        return res.send({
+          success: false,
+          message: 'Error: server error'
+        });
+      }
+      if (schools.length != 1) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid'
+        });
+      }
+      const school = schools[0];
+      return res.send({
+          success: true,
+          message: 'Valid School',
+          school: school,
+        });
+    });
+})
+
+app.get('/studentverify', function(req, res) {
+  var studentName = req.query.studentName;
+  Student.count({
+        username: studentName
+      }, (err, count) => {
+        if (err) {
+          return res.send({
+            success: false,
+            message: 'Error: Server error'
+          });
+        } else if (count > 0) {
+          return res.send({
+            success: false,
+            message: 'Error: Username already exist. Try logging in instead.'
+          });
+        }
+        return res.send({
+          success: true,
+          message: 'Valid Username',
+        });
+      });
+    });
+
+
+app.get('/androidstudent/signin', function (req, res) {
+  var username = req.query.username;
+  var password = req.query.password;
+  Student.find({
+      username: username
+    }, (err, students) => {
+      if (err) {
+        console.log('err 2:', err);
+        return res.send({
+          success: false,
+          message: 'Error: server error'
+        });
+      }
+      if (students.length != 1) {
+        return res.send({
+          success: false,
+          message: "username does not exist"
+        });
+      }
+      const student = students[0];
+      if (student.password !== password) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid Password'
+        });
+      }
+      return res.send({
+        success: true,
+        message: 'Valid sign in',
+        student: student,
+      });
+    });
+  });
 
 app.post('/messages/new', function (req, res) {
   var report_id = req.body.report_id;

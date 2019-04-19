@@ -12,7 +12,8 @@ var StudentSchema = new Schema ({
     },
     school: {
         type: Schema.ObjectId,
-        ref: 'School'
+        ref: 'School',
+        required: true
     }
 })
 
