@@ -14,6 +14,7 @@ class Reports extends React.Component {
 
   componentWillMount() {
     var school_id = this.props.school_id ? this.props.school_id : "5ca3694b2038d1644cc1d9d0"
+    console.log(school_id)
     fetch('reports/' + school_id )
     .then((response) => response.json())
     .then((json) => {

@@ -512,11 +512,11 @@ app.post('/question/delete/:school_id', function (req, res) {
 
 app.get('/reports/:school_id', function (req, res) {
   var school_id = req.params.school_id;
-  Report.find({}, function (err, reports) {
+  Report.find({school_id: school_id}, function (err, reports) {
     if (err || !reports) {
       return res.status(500).send(err);
     }
-    reports = reports.filter(report => report.school_id === school_id);
+    // reports = reports.filter(report => report.school_id === school_id);
     return res.send(reports)
   });
 });
