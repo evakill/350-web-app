@@ -507,7 +507,6 @@ app.get('/reports/:school_id', function (req, res) {
     if (err || !reports) {
       return res.status(500).send(err);
     }
-    console.log("REPORTS", reports)
     return res.send(reports)
   });
 });
