@@ -233,6 +233,15 @@ app.get('/messages', function (req, res) {
   });
 });
 
+app.get('/schools', function (req, res) {
+  School.find({}, function (err, schools) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.send(schools);
+  });
+});
+
 app.post('/reports/new', function (req, res) {
   var student_id = req.body.student_id;
   var school_id = req.body.school_id;
