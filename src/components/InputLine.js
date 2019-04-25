@@ -8,16 +8,18 @@ class InputTime extends React.Component {
             text: ""
         }
     }
+
     handleChange(e) {
         e.preventDefault();
         this.setState({text: e.target.value});
-        console.log(this.state.text);
     }
+
     handleSubmit(e) {
         e.preventDefault();
         this.props.submit(this.state.text);
         this.setState({text: ""});
       }
+      
     render () {
         return(
             <div className="textinput">

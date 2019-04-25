@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var ReportSchema = new Schema ({
     student_id: {
@@ -9,7 +10,7 @@ var ReportSchema = new Schema ({
     school_id: {
         type: Schema.ObjectId,
         ref: 'School',
-        requried: true
+        required: true
     },
     name: {
         type: String,
@@ -30,7 +31,12 @@ var ReportSchema = new Schema ({
     question_answer: {
         type: Array,
         required: true
-    }
+    },
+    messages: [{
+        type: Schema.ObjectId,
+        ref: 'Message',
+        required: true
+    }]
 })
 
-export default model('Report', ReportSchema)
+module.exports = mongoose.model('Report', ReportSchema);

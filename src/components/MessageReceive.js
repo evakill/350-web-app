@@ -1,9 +1,6 @@
 import React from 'react';
 
 class MessageReceive extends React.Component {
-    constructor(props) {
-        super(props)
-    }
     render () {
         return(
             <li className="content" style={{width: "95%"}}>
