@@ -241,6 +241,7 @@ app.post('/reports/new', function (req, res) {
   var time_of_report = new Date();
   var category = req.body.category;
   var question_answer = JSON.parse(req.body.question_answer);
+  var contact = req.body.contact;
 
   var report = new Report({
     student_id,
@@ -249,7 +250,8 @@ app.post('/reports/new', function (req, res) {
     time_of_report,
     name,
     category,
-    question_answer
+    question_answer,
+    contact
   });
   report.save(function(err, rpt) {
     if (err) {

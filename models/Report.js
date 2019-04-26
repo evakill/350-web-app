@@ -24,6 +24,10 @@ var ReportSchema = new Schema ({
         type: Date,
         required: true
     },
+    contact: {
+        type: String,
+        required: true
+    },
     category: {
         type: String,
         required: true
