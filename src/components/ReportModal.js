@@ -12,6 +12,7 @@ class ReportModal extends React.Component {
   render(){
     var { open, report, toggleModal } = this.props
     var question_answer = report.question_answer || []
+    var contact = report.contact
     var date_of_report = new Date(report.time_of_report)
     var date_of_incident = new Date(report.time_of_incident)
     return(
@@ -31,6 +32,10 @@ class ReportModal extends React.Component {
           <div style={{borderBottom: "1px solid #e5e5e5", padding: "5px 20px"}}>
             <b>Category: </b>
             <span style={{margin:10}} className="tag">{report ? report.category : ""}</span>
+          </div>
+          <div style={{borderBottom: "1px solid #e5e5e5", padding: "5px 20px"}}>
+            <b>Student Wishes to be Contacted: </b>
+            <span style={{margin:10}} className="tag">{report ? report.contact : ""}</span>
           </div>
           <div style={{borderBottom: "1px solid #e5e5e5", padding: "5px 20px"}}>
             <b>Date of incident: </b>
@@ -55,7 +60,9 @@ class ReportModal extends React.Component {
             </div>)
           }): ""}
           <div>
-            <Link to={{pathname: '/messenger', state: {report: report}}}><button className="button" style={{margin: 20, float: "right"}}>See Messages</button></Link>
+          {contact
+            ? null
+            : <Link to={{pathname: '/messenger', state: {report: report}}}><button className="button" style={{margin: 20, float: "right"}}>See Messages </button></Link>}
           </div>
         </div>
       </div>
