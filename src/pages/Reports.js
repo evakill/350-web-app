@@ -40,6 +40,7 @@ class Reports extends React.Component {
               </header>
               <div style={{padding: "10px 0px"}}>
                 {this.state.reports.map((report) => {
+                  var messageSize = report.messages
                   var date_of_report = new Date(report.time_of_report)
                   var date_of_incident = new Date(report.time_of_incident)
                   return(<div
@@ -54,20 +55,33 @@ class Reports extends React.Component {
                     <div className="column is-4">
                       <span className="tag">{report.category}</span>
                     </div>
-                    <div className="column is-3">
+                    <div className="column is-2">
                       <p className="is-size-6">{
                         date_of_report.getMonth() + 1 + "/" +
                         date_of_report.getDate() + "/" +
-                        date_of_report.getFullYear()}</p>
+                        date_of_report.getFullYear()}
+                        </p>
                     </div>
-                    <div className="column is-1">
-                      <span
-                        className="icon is-small"
-                        style={{margin: 10, color: "#7d7d7d"}}
-                        onClick={(e) => this.toggleModal(report)}>
-                        <i className="fas fa-plus"></i>
-                      </span>
-                    </div>
+                    <div>
+                    {report.contact === "true" && report.messages.length === 0
+                    ? <div className="column is-2">
+                        <span
+                          className="icon is-small"
+                          style={{margin: 10, color: "red"}}
+                          onClick={(e) => this.toggleModal(report)}>
+                          <i className="fas fa-flag"></i>
+                        </span>
+                      </div>
+                    :  <div className="column is-2">
+                          <span
+                            className="icon is-small"
+                            style={{margin: 10, color: "#7d7d7d"}}
+                            onClick={(e) => this.toggleModal(report)}>
+                            <i className="fas fa-plus"></i>
+                          </span>
+                        </div>
+ }
+                  </div>
                   </div>
                 )})}
             </div>
