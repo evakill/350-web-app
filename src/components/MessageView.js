@@ -59,11 +59,11 @@ class MessageView extends React.Component {
         <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
           <div className="namebar" style={{display: "flex"}}>
             <div style={{alignItems: "center"}}>
-                <h1 className = "title is-5">{this.state.report_title}</h1>
-                <h2 className = "subtitle is-6">Report Id: {this.state.report_id}</h2>
+              <h1 className = "title is-5">{this.state.report_title}</h1>
+              <h2 className = "subtitle is-6">Report Id: {this.state.report_id}</h2>
             </div>
             <div style={{float: "right", position: "fixed", right: "1em"}}>
-            <Link to={'/reports'}><button className="button" onClick={this.showReport()}>View Reports</button></Link>
+              <Link to={'/reports'}><button className="button" onClick={this.showReport()}>View Reports</button></Link>
             </div>
           </div>
           <MessagesList messages={this.state.messages} sender_id={this.state.sender_id} sendstate={this.state.sendstate}/>

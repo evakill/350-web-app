@@ -141,15 +141,15 @@ export default class Signup extends Component  {
           <div>
 
     <div className="App container">
+
       <Navbar fluid collapseOnSelect>
-        <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">BullyBye</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
-        </Navbar.Header>
+
         <Navbar.Collapse>
-          <Nav>
+          <Nav className="mr-auto">
             <NavItem href="/signup">Signup</NavItem>
             <NavItem href="/login">Login</NavItem>
           </Nav>
