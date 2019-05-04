@@ -5,9 +5,13 @@ import InputLine from '../components/InputLine';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 // Pass: report_id, report_title, student_id
 
-class MessageView extends React.Component {
+class Messenger extends React.Component {
     constructor(props) {
       super(props)
       const { report } = this.props.location.state
@@ -15,11 +19,18 @@ class MessageView extends React.Component {
         messages: [],
         report_id: report._id,
         report_title: report.name || 'Student Report',
-        sender_id: this.props.sender_id,
+        sender_id: '',
         student_id: report.student_id,
         sendstate: false
       }
       this.sendMessage = this.sendMessage.bind(this);
+    }
+
+    componentWillMount() {
+      var school_id = cookies.get('schoolID')
+      if (school_id) {
+        this.setState({sender_id: school_id})
+      }
     }
 
     getMessages(){
@@ -52,6 +63,7 @@ class MessageView extends React.Component {
     }
 
     render() {
+      this.getMessages()
       return(
         <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
           <div className="namebar" style={{display: "flex"}}>
@@ -70,4 +82,4 @@ class MessageView extends React.Component {
     }
 
 }
-export default MessageView;
+export default Messenger;

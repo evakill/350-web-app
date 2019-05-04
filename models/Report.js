@@ -26,7 +26,7 @@ var ReportSchema = new Schema ({
     },
     contact: {
         type: String,
-        required: true
+        required: false
     },
     category: {
         type: String,
