@@ -1,5 +1,10 @@
 import React from 'react'
 import Menu from '../components/Menu'
+import { Redirect } from 'react-router';
+
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class EditQuestions extends React.Component {
   constructor(props) {
@@ -7,21 +12,29 @@ class EditQuestions extends React.Component {
     this.state = {
       questions: [],
       newQ: false,
-      inputQ: ''
+      inputQ: '',
     }
   }
 
   componentWillMount() {
-    var school_id = this.props.school_id ? this.props.school_id : "5ca3694b2038d1644cc1d9d0"
+    var school_id = cookies.get('schoolID')
+    if (school_id == null) {
+      return
+    }
+
     fetch('questions/' + school_id)
     .then((response) => response.json())
     .then((json) => {
-      this.setState({questions: json})
+      this.setState({questions: json.questions})
     })
   }
 
   saveQuestion() {
-    var school_id = this.props.school_id ? this.props.school_id : "5ca3694b2038d1644cc1d9d0"
+    var school_id = cookies.get('schoolID')
+    if (school_id == null) {
+      return
+    }
+
     var question = this.state.inputQ;
     fetch('question/new/' + school_id, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -36,7 +49,11 @@ class EditQuestions extends React.Component {
   }
 
   deleteQuestion(question) {
-    var school_id = this.props.school_id ? this.props.school_id : "5ca3694b2038d1644cc1d9d0"
+    var school_id = cookies.get('schoolID')
+    if (school_id == null) {
+      return
+    }
+
     fetch('question/delete/' + school_id, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -50,6 +67,12 @@ class EditQuestions extends React.Component {
   }
 
   render() {
+    if (cookies.get('schoolID') == null) {
+      return (
+          <Redirect to='/' />
+        );
+    };
+
     return (
       <div className="hero is-fullheight">
         <div className="columns" style={{display: "flex", backgroundColor: "#f2f2f2", flexGrow: 1}}>

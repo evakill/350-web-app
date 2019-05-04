@@ -17,6 +17,10 @@ import {
   setInStorage,
 } from '../utils/storage';
 
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 export default class Signup extends Component  {
   constructor(props) {
     super(props);
@@ -102,6 +106,7 @@ export default class Signup extends Component  {
       .then(json => {
         if (json.success) {
           alert("Logged In")
+          cookies.set('schoolID', json.schoolID, { path: '/' });
           this.setState({
             signInError: json.message,
             isLoading: false,

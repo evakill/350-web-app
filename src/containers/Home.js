@@ -2,14 +2,13 @@ import React, { Component } from "react";
 // import "./Home.css";
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router';
-import {
-  getFromStorage,
-} from '../utils/storage';
 
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 
 export default class Home extends Component {
-constructor(props) {
+  constructor(props) {
     super(props);
 
     this.state = {
