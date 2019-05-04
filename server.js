@@ -77,46 +77,13 @@ app.post('/signin', (req, res) => {
 
       return res.send({
         success: true,
-        message: 'Valid sign in'
+        message: 'Valid sign in',
+        schoolID: school._id,
       });
     });
   });
 
-/*
-   * Verify a user's action
-   */
 
-app.get('/verify', (req, res) => {
-    // Get the token
-    const { query } = req;
-    const { token } = query;
-    // ?token=test
-    // Verify the token is one of a kind and it's not deleted.
-    UserSession.find({
-      _id: token,
-      isDeleted: false
-    }, (err, sessions) => {
-      if (err) {
-        console.log(err);
-        return res.send({
-          success: false,
-          message: 'Error: Server error'
-        });
-      }
-      if (sessions.length != 1) {
-        return res.send({
-          success: false,
-          message: 'Error: Invalid'
-        });
-      } else {
-        // DO ACTION
-        return res.send({
-          success: true,
-          message: 'Good'
-        });
-      }
-    });
-  });
 /*
    * Sign up
    */
@@ -149,12 +116,12 @@ app.post('/signup', (req, res) => {
     // Save the new user
     var newSchool = new School({name, email, password, questions});
 
-    newSchool.save((err, user) => {
+    newSchool.save((err, school) => {
       if (err) {
         return res.status(500).send(err);
       }
         return res.send({
-          school: newSchool,
+          schoolID: school._id,
           success: true
         });
     });
