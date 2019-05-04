@@ -2,6 +2,11 @@ import React from 'react'
 import Menu from '../components/Menu'
 import ReportModal from '../components/ReportModal'
 
+import { Redirect } from 'react-router';
+
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class Reports extends React.Component {
   constructor(props){
@@ -13,12 +18,14 @@ class Reports extends React.Component {
   }
 
   componentWillMount() {
-    var school_id = "5cb8abf15b86b74149ceb385"
-    fetch('reports/' + school_id )
-    .then((response) => response.json())
-    .then((json) => {
-      this.setState({reports: json})
-    })
+    var school_id = cookies.get('schoolID')
+    if (school_id) {
+      fetch('reports/' + school_id )
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({reports: json})
+      })
+    }
   }
 
   toggleModal(report) {
@@ -26,6 +33,12 @@ class Reports extends React.Component {
   }
 
   render() {
+    if (cookies.get('schoolID') == null) {
+      return (
+          <Redirect to='/' />
+        );
+    };
+
     return (
       <div className="hero is-fullheight">
         <div className="columns" style={{display: "flex", backgroundColor: "#f2f2f2", flexGrow: 1}}>

@@ -9,7 +9,7 @@ class ReportModal extends React.Component {
     }
   }
 
-  render(){
+  render() {
     var { open, report, toggleModal } = this.props
     var question_answer = report.question_answer || []
     var date_of_report = new Date(report.time_of_report)

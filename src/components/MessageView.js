@@ -14,7 +14,7 @@ class MessageView extends React.Component {
       //TODO: need to edit out the static school id
       this.state = {
         messages: [],
-        report_id: report._id || '5ca1232c30973a8280ebbad2',
+        report_id: report._id,
         report_title: report.name || 'Student Report',
         sender_id: this.props.sender_id || '1', //this needs to be the id taken from cookies
         student_id: report.student_id || '2',
