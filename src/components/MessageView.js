@@ -11,13 +11,12 @@ class MessageView extends React.Component {
     constructor(props) {
       super(props)
       const { report } = this.props.location.state
-      //TODO: need to edit out the static school id
       this.state = {
         messages: [],
         report_id: report._id,
         report_title: report.name || 'Student Report',
-        sender_id: this.props.sender_id || '1', //this needs to be the id taken from cookies
-        student_id: report.student_id || '2',
+        sender_id: this.props.sender_id,
+        student_id: report.student_id,
         sendstate: false
       }
       this.sendMessage = this.sendMessage.bind(this);
@@ -63,7 +62,7 @@ class MessageView extends React.Component {
               <h2 className = "subtitle is-6">Report Id: {this.state.report_id}</h2>
             </div>
             <div style={{float: "right", position: "fixed", right: "1em"}}>
-              <Link to={'/reports'}><button className="button" onClick={this.showReport()}>View Reports</button></Link>
+              <Link to={'/home'}><button className="button" onClick={this.showReport()}>View Reports</button></Link>
             </div>
           </div>
           <MessagesList messages={this.state.messages} sender_id={this.state.sender_id} sendstate={this.state.sendstate}/>

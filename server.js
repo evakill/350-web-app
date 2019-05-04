@@ -368,7 +368,6 @@ app.get('/schools', function (req, res) {
     if (!schools) {
       return res.status(404).send(err);
     }
-    console.log("Returning these schools " + schools);
     return res.send(schools);
   })
 });
@@ -390,7 +389,6 @@ app.post('/school/new', function (req, res) {
 app.post('/question/new/:school_id', function (req, res) {
   var question = req.body.question
   var school_id = req.params.school_id
-  console.log("posting question for this id: " + school_id);
   School.findById(school_id, function(err, school) {
     if (err) {
       return res.status(500).send(err);
@@ -464,7 +462,6 @@ app.get('/reports/student/:student_id', function (req, res) {
         }
         json_array.push({report: report, last_message: last_message})
       })
-      // console.log(json_array)
       return res.send(json_array)
     })
   });
@@ -487,6 +484,20 @@ app.get('/reports/clear/:school_id', function (req, res) {
       return res.status(500).send(err);
     }
     return res.send(reports)
+  });
+});
+
+server.listen(8000, function(){
+  console.log('listening')
+})
+
+app.get('/school/:school_id', function (req, res) {
+  var school_id = req.params.school_id;
+  School.findById(school_id, function (err, school) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.send(school)
   });
 });
 

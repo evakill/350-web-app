@@ -12,7 +12,7 @@ class EditQuestions extends React.Component {
     this.state = {
       questions: [],
       newQ: false,
-      inputQ: ''
+      inputQ: '',
     }
   }
 
@@ -25,7 +25,7 @@ class EditQuestions extends React.Component {
     fetch('questions/' + school_id)
     .then((response) => response.json())
     .then((json) => {
-      this.setState({questions: json})
+      this.setState({questions: json.questions})
     })
   }
 
