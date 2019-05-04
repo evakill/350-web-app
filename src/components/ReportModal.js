@@ -60,7 +60,7 @@ class ReportModal extends React.Component {
             </div>)
           }): ""}
           <div>
-          {report.contact === "true"
+          {report.contact === "true" || report.messages.length !== 0
             ? <Link to={{pathname: '/messenger', state: {report: report}}}><button className="button" style={{margin: 20, float: "right"}}>See Messages </button></Link>
             : null}
           </div>

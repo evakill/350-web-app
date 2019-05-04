@@ -62,9 +62,19 @@ class Reports extends React.Component {
                         date_of_report.getFullYear()}
                         </p>
                     </div>
+                                   <div className="column is-1">
+                          <span
+                            className="icon is-small"
+                            style={{margin: 10, color: "#7d7d7d"}}
+                            onClick={(e) => this.toggleModal(report)}>
+                            <i className="fas fa-plus"></i>
+                          </span>
+                  </div>
                     <div>
+
                     {report.contact === "true" && report.messages.length === 0
-                    ? <div className="column is-2">
+                    ? <div>
+                      <div className="column is-1">
                         <span
                           className="icon is-small"
                           style={{margin: 10, color: "red"}}
@@ -72,15 +82,8 @@ class Reports extends React.Component {
                           <i className="fas fa-flag"></i>
                         </span>
                       </div>
-                    :  <div className="column is-2">
-                          <span
-                            className="icon is-small"
-                            style={{margin: 10, color: "#7d7d7d"}}
-                            onClick={(e) => this.toggleModal(report)}>
-                            <i className="fas fa-plus"></i>
-                          </span>
-                        </div>
- }
+                      </div>
+                    :  null }
                   </div>
                   </div>
                 )})}
