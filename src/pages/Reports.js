@@ -1,5 +1,6 @@
 import React from 'react'
 import Menu from '../components/Menu'
+import axios from 'axios';
 import ReportModal from '../components/ReportModal'
 
 
@@ -9,6 +10,7 @@ class Reports extends React.Component {
     this.state = {
       reports: [],
       open: false,
+      lastMessages: [],
     }
   }
 
@@ -17,8 +19,20 @@ class Reports extends React.Component {
     fetch('reports/' + school_id )
     .then((response) => response.json())
     .then((json) => {
-      this.setState({reports: json})
+      this.setState({reports: json.reports})
+      this.setState({lastMessages: json.lastMessages})
     })
+
+  }
+
+  getLastMessage(report_id) {
+    var lastMessage = null;
+    this.state.lastMessages.forEach((obj) => {
+      if (obj.reportID == report_id) {
+        lastMessage = obj.last_message;
+      }
+    })
+    return lastMessage;
   }
 
   toggleModal(report) {
@@ -39,8 +53,8 @@ class Reports extends React.Component {
                 </p>
               </header>
               <div style={{padding: "10px 0px"}}>
-                {this.state.reports.map((report) => {
-                  var messageSize = report.messages
+                {this.state.reports ? this.state.reports.map((report) => {
+                  var lastMessage = this.getLastMessage(report._id)
                   var date_of_report = new Date(report.time_of_report)
                   var date_of_incident = new Date(report.time_of_incident)
                   return(<div
@@ -52,8 +66,15 @@ class Reports extends React.Component {
                     <div className="column is-4">
                       <p className="is-size-6">{report.name}</p>
                     </div>
-                    <div className="column is-4">
+                    <div className="column is-2">
                       <span className="tag">{report.category}</span>
+                    </div>
+                    <div className="column is-2">
+                      {lastMessage !== null
+                        ?
+                        <span className="is-size-6">{lastMessage.text}</span>
+                        : <span className="is-size-6">No messages</span>
+                      }
                     </div>
                     <div className="column is-2">
                       <p className="is-size-6">{
@@ -86,7 +107,7 @@ class Reports extends React.Component {
                     :  null }
                   </div>
                   </div>
-                )})}
+                )}) : ""}
             </div>
           </div>
         </div>
