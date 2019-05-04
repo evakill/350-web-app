@@ -14,7 +14,8 @@ class Home extends React.Component {
     this.state = {
       reports: [],
       open: false,
-      schoolName: ''
+      schoolName: '',
+      lastMessages: [],
     }
   }
 
@@ -26,14 +27,25 @@ class Home extends React.Component {
       .then((json) => {
         this.setState({schoolName: json.name})
       })
-
       fetch('reports/' + school_id )
       .then((response) => response.json())
       .then((json) => {
-        this.setState({reports: json})
+        this.setState({reports: json.reports})
+        this.setState({lastMessages: json.lastMessages})
       })
     }
   }
+
+  getLastMessage(report_id) {
+    var lastMessage = null;
+    this.state.lastMessages.forEach((obj) => {
+      if (obj.reportID === report_id) {
+        lastMessage = obj.last_message;
+      }
+    })
+    return lastMessage;
+  }
+
 
   toggleModal(report) {
     this.setState({open: !this.state.open, report: report})
@@ -52,15 +64,15 @@ class Home extends React.Component {
           <Menu />
           <div className="column is-10">
             <h1 className="title"> Welcome, {this.state.schoolName}. </h1>
-            <div className="card" style={{margin: "10px", borderRadius: 3, overflowY: "auto", height: "90vh", overflowX: "hidden"}}>
+            <div className="card" style={{margin: "30px 100px", borderRadius: 5, overflowY: "auto", height: "80vh", overflowX: "hidden"}}>
               <header className="card-header is-flex" style={{justifyContent: "space-between", alignItems: "center"}}>
                 <p className="card-header-title">
                   Current Reports
                 </p>
               </header>
               <div style={{padding: "10px 0px"}}>
-                {this.state.reports.map((report) => {
-                  var messageSize = report.messages
+                {this.state.reports ? this.state.reports.map((report) => {
+                  var lastMessage = this.getLastMessage(report._id)
                   var date_of_report = new Date(report.time_of_report)
                   var date_of_incident = new Date(report.time_of_incident)
                   return(<div
@@ -72,8 +84,15 @@ class Home extends React.Component {
                     <div className="column is-4">
                       <p className="is-size-6">{report.name}</p>
                     </div>
-                    <div className="column is-4">
+                    <div className="column is-2">
                       <span className="tag">{report.category}</span>
+                    </div>
+                    <div className="column is-2">
+                      {lastMessage !== null
+                        ?
+                        <span className="is-size-6">{lastMessage.text}</span>
+                        : <span className="is-size-6">No messages</span>
+                      }
                     </div>
                     <div className="column is-2">
                       <p className="is-size-6">{
@@ -106,7 +125,7 @@ class Home extends React.Component {
                     :  null }
                   </div>
                   </div>
-                )})}
+                )}) : ""}
             </div>
           </div>
         </div>

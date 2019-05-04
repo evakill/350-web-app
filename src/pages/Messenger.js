@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/MessageView.css';
-import MessagesList from './MessagesList';
-import InputLine from './InputLine';
+import MessagesList from '../components/MessagesList';
+import InputLine from '../components/InputLine';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 
@@ -35,7 +35,6 @@ class MessageView extends React.Component {
     }
 
     sendMessage = async function (text) {
-      var messages = this.state.messages;
       var self = this
       await axios.post('http://localhost:8080/messages/new',
         {
@@ -53,7 +52,6 @@ class MessageView extends React.Component {
     }
 
     render() {
-      var messages = this.getMessages();
       return(
         <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
           <div className="namebar" style={{display: "flex"}}>
