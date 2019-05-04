@@ -106,6 +106,7 @@ export default class Signup extends Component  {
       .then(json => {
         if (json.success) {
           alert("Logged In")
+          cookies.set('schoolID', json.schoolID, { path: '/' });
           this.setState({
             signInError: json.message,
             isLoading: false,
@@ -113,7 +114,6 @@ export default class Signup extends Component  {
             signInEmail: '',
             successfulLogin: true,
           });
-          cookies.set('schoolID', json.schoolID, { path: '/' });
         } else {
           alert(json.message)
           this.setState({

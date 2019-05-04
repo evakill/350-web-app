@@ -106,6 +106,7 @@ export default class Signup extends Component  {
         console.log('json', json);
         if (json.success) {
           alert("Signed Up")
+          cookies.set('schoolID', json.schoolID, { path: '/' });
           this.setState({
             isLoading: false,
             signUpEmail: '',
@@ -113,7 +114,6 @@ export default class Signup extends Component  {
             signUpName:'',
             success:true,
           });
-          cookies.set('schoolID', json.schoolID, { path: '/' });
         } else {
           alert(json.message)
           this.setState({
