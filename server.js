@@ -16,8 +16,6 @@ var Message = require('./models/Message');
 var Report = require('./models/Report');
 var School = require('./models/School');
 
-const UserSession = require('./models/UserSession');
-
 var Student = require('./models/Student');
 
 
@@ -77,54 +75,9 @@ app.post('/signin', (req, res) => {
         });
       }
 
-      // return res.send({
-      //     success: true,
-      //     message: 'Valid sign in',
-      //   });
-      // Otherwise correct user
-      const userSession = new UserSession();
-      userSession.userId = school._id;
-      userSession.save((err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: 'Error: server error'
-          });
-        }
-        return res.send({
-          success: true,
-          message: 'Valid sign in',
-          token: doc._id
-        });
-      });
-    });
-  });
-
-app.get('/logout', (req, res) => {
-    // Get the token
-    const { query } = req;
-    const { token } = query;
-    // ?token=test
-    // Verify the token is one of a kind and it's not deleted.
-    UserSession.findOneAndUpdate({
-      _id: token,
-      isDeleted: false
-    }, {
-      $set: {
-        isDeleted:true
-      }
-    }, null, (err, sessions) => {
-      if (err) {
-        console.log(err);
-        return res.send({
-          success: false,
-          message: 'Error: Server error'
-        });
-      }
       return res.send({
         success: true,
-        message: 'Good'
+        message: 'Valid sign in'
       });
     });
   });
