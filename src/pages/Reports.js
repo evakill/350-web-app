@@ -32,7 +32,7 @@ class Reports extends React.Component {
           <Menu />
           <div className="column is-10">
             <h1 className="title"> View your reports. </h1>
-            <div className="card" style={{margin: "30px 100px", borderRadius: 5}}>
+            <div className="card" style={{margin: "30px 100px", borderRadius: 5, overflowY: "auto", height: "80vh", overflowX: "hidden"}}>
               <header className="card-header is-flex" style={{justifyContent: "space-between", alignItems: "center"}}>
                 <p className="card-header-title">
                   Current Reports

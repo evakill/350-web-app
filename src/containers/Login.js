@@ -23,7 +23,7 @@ export default class Signup extends Component  {
 
     this.state = {
       isLoading: false,
-      token: '',
+      successfulLogin: false,
       signInError: '',
       signInEmail: '',
       signInPassword: '',
@@ -102,19 +102,19 @@ export default class Signup extends Component  {
       .then(json => {
         if (json.success) {
           alert("Logged In")
-          setInStorage('the_main_app', { token: json.token });
           this.setState({
             signInError: json.message,
             isLoading: false,
             signInPassword: '',
             signInEmail: '',
-            token: json.token,
+            successfulLogin: true,
           });
         } else {
           alert(json.message)
           this.setState({
             signInError: json.message,
             isLoading: false,
+            successfulLogin: false,
           });
         }
       });
@@ -124,8 +124,8 @@ export default class Signup extends Component  {
 
   render() {
     const {
+      successfulLogin,
       isLoading,
-      token,
       signInEmail,
       signInPassword,
     } = this.state;
@@ -134,22 +134,22 @@ export default class Signup extends Component  {
       return (<div><p>Loading...</p></div>);
     }
 
-    if (!token) {
+    if (!successfulLogin) {
       return (
 
         <div>
           <div>
 
     <div className="App container">
+
       <Navbar fluid collapseOnSelect>
-        <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">BullyBye</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
-        </Navbar.Header>
+
         <Navbar.Collapse>
-          <Nav>
+          <Nav className="mr-auto">
             <NavItem href="/signup">Signup</NavItem>
             <NavItem href="/login">Login</NavItem>
           </Nav>
