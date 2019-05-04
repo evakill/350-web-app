@@ -17,6 +17,10 @@ import {
   setInStorage,
 } from '../utils/storage';
 
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 export default class Signup extends Component  {
   constructor(props) {
     super(props);
@@ -109,6 +113,7 @@ export default class Signup extends Component  {
             signInEmail: '',
             successfulLogin: true,
           });
+          cookies.set('schoolID', json.schoolID, { path: '/' });
         } else {
           alert(json.message)
           this.setState({

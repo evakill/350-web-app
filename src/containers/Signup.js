@@ -13,14 +13,16 @@ import {
 } from "react-bootstrap";
 import "./Signup.css";
 
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 export default class Signup extends Component  {
   constructor(props) {
     super(props);
 
     this.state = {
       isLoading: true,
-      token: '',
-      signUpError: '',
       signInPassword: '',
       signUpEmail: '',
       signUpPassword: '',
@@ -33,7 +35,7 @@ export default class Signup extends Component  {
     this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpName = this.onTextboxChangeSignUpName.bind(this);
-    
+
     // this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     // this.logout = this.logout.bind(this);
@@ -42,7 +44,7 @@ export default class Signup extends Component  {
   componentDidMount() {
       this.setState({
         isLoading: false,
-      }); 
+      });
   }
 
 
@@ -105,18 +107,16 @@ export default class Signup extends Component  {
         if (json.success) {
           alert("Signed Up")
           this.setState({
-            signUpError: json.message,
             isLoading: false,
             signUpEmail: '',
             signUpPassword: '',
             signUpName:'',
-            // token: json.token,
             success:true,
           });
+          cookies.set('schoolID', json.schoolID, { path: '/' });
         } else {
           alert(json.message)
           this.setState({
-            signUpError: json.message,
             isLoading: false,
           });
         }
@@ -127,7 +127,6 @@ export default class Signup extends Component  {
   render() {
     const {
       isLoading,
-      token,
       signUpEmail,
       signUpPassword,
       signUpName,
@@ -157,7 +156,7 @@ export default class Signup extends Component  {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-    </div> 
+    </div>
 
           </div>
           <br />
