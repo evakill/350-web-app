@@ -58,6 +58,7 @@ io.on('connection', (socket) => {
            return res.status(500).send(err);
          }
          var json = {report_id: report_id, message: msg}
+         console.log("new message sent")
          io.emit('new message', json);
        })
        return res.send(report)
