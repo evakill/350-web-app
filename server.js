@@ -22,9 +22,49 @@ var Student = require('./models/Student');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-io.on('connection', (socket) =>{
+io.on('connection', (socket) => {
  console.log('A user has connected.')
 })
+
+ app.post('/messages/new', function (req, res) {
+   var report_id = req.body.report_id;
+   if (!report_id) {
+     return res.status(400).send("Missing report_id.");
+   }
+   var sender_id = req.body.sender_id;
+   var recipient_id = req.body.recipient_id;
+   var text = req.body.text;
+   var timestamp = new Date();
+
+   var message = new Message({sender_id, recipient_id, text, timestamp});
+   // Get the report
+   Report.findById(report_id, function(err, report) {
+     if (err) {
+       return res.status(500).send(err);
+     }
+     // Save the message
+     message.save(function(err, msg) {
+       if (err) {
+         console.log(err)
+         return res.status(500).send(err);
+       }
+
+       // Update the report with the new message
+       report.messages.push(msg);
+
+       report.save(function(err, rpt) {
+         if (err) {
+           console.log(err)
+           return res.status(500).send(err);
+         }
+         var json = {report_id: report_id, message: msg}
+         io.emit('new message', json);
+       })
+       return res.send(report)
+     });
+   })
+ });
+
 
 app.get('/ping', function (req, res) {
  return res.send('pong');
@@ -315,45 +355,7 @@ app.get('/androidstudent/signin', function (req, res) {
     });
   });
 
-app.post('/messages/new', function (req, res) {
-  var report_id = req.body.report_id;
-  if (!report_id) {
-    return res.status(400).send("Missing report_id.");
-  }
-  console.log(req.body.sender_id)
-  var sender_id = req.body.sender_id;
-  var recipient_id = req.body.recipient_id;
-  var text = req.body.text;
-  var timestamp = new Date();
 
-  var message = new Message({sender_id, recipient_id, text, timestamp});
-  // Get the report
-  Report.findById(report_id, function(err, report) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    // Save the message
-    message.save(function(err, msg) {
-      if (err) {
-        console.log(err)
-        return res.status(500).send(err);
-      }
-
-      // Update the report with the new message
-      report.messages.push(msg);
-
-      report.save(function(err, rpt) {
-        if (err) {
-          console.log(err)
-          return res.status(500).send(err);
-        }
-        var json = {report_id: report_id, message: msg}
-        io.emit('new message', json);
-      })
-      return res.send(report)
-    });
-  })
-});
 
 app.get('/questions/:school_id', function (req, res) {
   var school_id = req.params.school_id;
@@ -517,9 +519,6 @@ app.get('/reports/clear/:school_id', function (req, res) {
   });
 });
 
-server.listen(8000, function(){
-  console.log('listening')
-})
 
 app.get('/school/:school_id', function (req, res) {
   var school_id = req.params.school_id;

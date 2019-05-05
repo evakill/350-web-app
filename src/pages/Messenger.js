@@ -4,6 +4,7 @@ import MessagesList from '../components/MessagesList';
 import InputLine from '../components/InputLine';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router';
 
 import Cookies from 'universal-cookie';
 
@@ -14,13 +15,13 @@ const cookies = new Cookies();
 class Messenger extends React.Component {
     constructor(props) {
       super(props)
-      const { report } = this.props.location.state
+      const { report } = this.props.location.state ? this.props.location.state : {}
       this.state = {
         messages: [],
-        report_id: report._id,
-        report_title: report.name || 'Student Report',
+        report_id: report ? report._id : '',
+        report_title: report ? report.name : '',
         sender_id: '',
-        student_id: report.student_id,
+        student_id: report? report.student_id : '',
         sendstate: false
       }
       this.sendMessage = this.sendMessage.bind(this);
@@ -63,6 +64,11 @@ class Messenger extends React.Component {
     }
 
     render() {
+      if (cookies.get('schoolID') == null) {
+        return (
+            <Redirect to='/' />
+          );
+      }
       this.getMessages()
       return(
         <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
